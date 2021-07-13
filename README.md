@@ -6,6 +6,11 @@
 
 [기획서 링크](https://www.figma.com/proto/p8xNIB3Od4x3ylaIaOLtjl/Wooamarket?page-id=617%3A1286&node-id=617%3A1298&viewport=203%2C397%2C0.25&scaling=contain)
 
+### 소스코드 구조
+
+한 레포지토리 내에 client, server 두개의 프로젝트를 넣었습니다.<br />
+각각 client와 server 디렉터리에 들어가서 확인할 수 있습니다.
+
 ## 팀원 소개
 
 ### [이태형](https://github.com/momongss)
