@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+const debug = require('debug')('express-pratice:server');
+
+const app = require('../app');
+const config = require('../config/index');
+
+app.listen(config.port, (err) => {
+  if (err) {
+    onError(err);
+    process.exit(1);
+  }
+  onListening();
+});
+
+function onError(error) {
+  console.error(error);
+}
+
+function onListening() {
+  debug('Listening on ' + config.port);
+}
