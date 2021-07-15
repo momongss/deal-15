@@ -1,0 +1,52 @@
+$color-title-active: #222222;
+$color-grey1: #888888;
+$color-grey1: #bbbbbb;
+$color-grey3: #d7d7d7;
+$color-off-white: #f6f6f6;
+$color-white: #ffffff;
+$color-primary1: #2ac1bc;
+$color-primary2: #a0e1e0;
+$color-primary3: #219a95;
+$color-red: #f45452;
+
+@mixin text-large {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+@mixin text-medium {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+@mixin text-small {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+@mixin text-x-small {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+@mixin link-medium {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+@mixin link-small {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+@mixin link-x-small {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
