@@ -21,10 +21,6 @@ export default class Component {
     return $dom;
   };
 
-  getDom = () => {
-    return $dom;
-  };
-
   replaceElement = ($old, $new) => {
     $old.parentElement.replaceChild($new, $old);
   };
