@@ -1,0 +1,43 @@
+@import '@/styles/theme.scss';
+
+.button-normal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: $color-primary1;
+
+  border-radius: 8px;
+
+  &.disable {
+    background-color: $color-primary2;
+  }
+
+  &:not(.disable):hover {
+    background-color: $color-primary3;
+    cursor: pointer;
+  }
+
+  &:not(.disable):hover:active {
+    background-color: $color-primary1;
+    border: 2px solid $color-primary2;
+  }
+
+  &.medium {
+    width: 136px;
+    height: 36px;
+
+    @include text-small;
+  }
+
+  &.large {
+    width: 290px;
+    height: 42px;
+
+    @include text-medium;
+  }
+
+  .btn-text {
+    color: $color-white;
+  }
+}

@@ -1,0 +1,28 @@
+@import '@/styles/theme.scss';
+
+.tab-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 86px;
+  height: 50px;
+
+  border-bottom: 2px solid $color-white;
+  background-color: $color-white;
+
+  cursor: pointer;
+
+  &.selected {
+    border-bottom: 2px solid $color-primary1;
+  }
+
+  &.selected .btn-text {
+    color: $color-primary1;
+  }
+}
+
+.btn-text {
+  color: $color-grey1;
+  @include link-small;
+}

@@ -1,0 +1,65 @@
+@import '@/styles/theme.scss';
+
+.location {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: $color-primary1;
+
+  border: 1px solid $color-primary1;
+  border-radius: 8px;
+
+  height: 36px;
+
+  i {
+    text-align: center;
+  }
+
+  &.add {
+    background-color: $color-white;
+
+    cursor: pointer;
+  }
+
+  &.add i {
+    font-size: 24px;
+    color: $color-primary2;
+  }
+
+  &.active {
+    color: $color-white;
+  }
+
+  &.active i {
+    font-size: 24px;
+    color: $color-primary2;
+  }
+
+  &.in-active {
+    background-color: $color-white;
+    color: $color-primary3;
+  }
+
+  &.in-active i {
+    font-size: 24px;
+    color: $color-primary2;
+  }
+
+  .btn-text {
+    @include text-small;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .btn-add {
+    width: 24px;
+  }
+
+  .btn-close {
+    width: 24px;
+    cursor: pointer;
+  }
+}

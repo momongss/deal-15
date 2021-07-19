@@ -1,0 +1,40 @@
+@import '@/styles/theme.scss';
+
+.category-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: $color-primary1;
+  border: 1px solid $color-primary1;
+
+  color: $color-white;
+
+  border-radius: 999px;
+
+  height: 28px;
+
+  padding: 0 15px;
+
+  cursor: pointer;
+
+  &.disable {
+    background-color: $color-white;
+    border: 1px solid $color-grey1;
+
+    color: $color-grey1;
+  }
+
+  &:not(.disable):hover {
+    background-color: $color-primary3;
+  }
+
+  &:not(.disable):hover:active {
+    background-color: $color-primary1;
+    border: 1px solid $color-primary2;
+  }
+
+  .btn-text {
+    @include link-small;
+  }
+}

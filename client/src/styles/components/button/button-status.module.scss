@@ -1,0 +1,28 @@
+@import '@/styles/theme.scss';
+
+.status-btn {
+  height: 40px;
+
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: $color-white;
+
+  cursor: pointer;
+
+  padding: 0 14px;
+
+  .status-text {
+    @include text-small;
+
+    margin-right: 10px;
+  }
+
+  i {
+    color: $color-grey1;
+  }
+}
