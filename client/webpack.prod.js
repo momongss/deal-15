@@ -7,4 +7,24 @@ module.exports = merge(common, {
     filename: '[name].[contenthash].bundle.js',
   },
   devtool: 'source-map',
+  module: {
+    rules: [
+      {
+        test: /\.module\.s?css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[hash:base64]',
+              },
+            },
+          },
+          'postcss-loader',
+          'sass-loader',
+        ],
+      },
+    ],
+  },
 });
