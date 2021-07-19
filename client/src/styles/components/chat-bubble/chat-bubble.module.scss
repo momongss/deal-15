@@ -1,0 +1,51 @@
+@import '@/styles/theme.scss';
+
+.chat-bubble {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: 16px;
+
+  &.me {
+    justify-content: flex-end;
+    padding-right: 16px;
+    padding-left: 30%;
+
+    .chat-text-wrapper {
+      border-radius: 8px 0px 8px 8px;
+      background-color: $color-primary1;
+    }
+    .chat-text {
+      color: $color-white;
+    }
+  }
+
+  &.other {
+    justify-content: flex-start;
+    padding-left: 16px;
+    padding-right: 30%;
+
+    .chat-text-wrapper {
+      border-radius: 0px 8px 8px 8px;
+      background-color: $color-white;
+    }
+    .chat-text {
+      color: $color-title-active;
+    }
+  }
+}
+
+.chat-text-wrapper {
+  display: inline-block;
+  padding: 6px 7px 8px 7px;
+  border: 1px solid $color-primary1;
+}
+
+.chat-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
