@@ -3,22 +3,49 @@
 .img-box {
   background-size: cover;
 
-  &.small img {
+  &.small {
     width: 40px;
+    height: 40px;
+
     border-radius: 6px;
     background-color: $color-off-white;
+
+    border: 1px solid $color-grey3;
+
+    img {
+      width: 100%;
+      border-radius: 6px;
+    }
   }
 
-  &.medium img {
+  &.medium {
     width: 76px;
+    height: 76px;
+
     border-radius: 8px;
     background-color: $color-off-white;
+
+    border: 1px solid $color-grey3;
+
+    img {
+      width: 100%;
+      border-radius: 8px;
+    }
   }
 
-  &.large img {
+  &.large {
     width: 106px;
+    height: 106px;
+
     border-radius: 10px;
     background-color: $color-off-white;
+
+    border: 1px solid $color-grey3;
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+    }
   }
 
   &.gradient {
