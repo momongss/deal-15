@@ -1,0 +1,25 @@
+@import '@/styles/theme.scss';
+
+.category-list-item {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  align-items: center;
+
+  height: 72px;
+
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    .title {
+      color: $color-primary1;
+    }
+  }
+}
+
+.title {
+  @include text-x-small;
+  color: $color-title-active;
+}
