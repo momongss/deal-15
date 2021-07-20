@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import ImgBox from '@/components/img-box/img-box';
 import DefaultImg from '@/assets/images/button-default.svg';
