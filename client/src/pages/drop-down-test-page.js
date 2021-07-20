@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import DropDown from '@/components/drop-down/drop-down.js';
 
