@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import styles from '@/styles/components/img-box/img-box.module.scss';
 

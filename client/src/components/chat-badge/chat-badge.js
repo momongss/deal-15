@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import styles from '@/styles/components/chat-badge/chat-badge.module.scss';
 

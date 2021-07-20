@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import ChatBadge from '@/components/chat-badge/chat-badge.js';
 

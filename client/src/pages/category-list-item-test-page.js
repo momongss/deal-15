@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import ImgBox from '@/components/category-list-item/category-list-item.js';
 

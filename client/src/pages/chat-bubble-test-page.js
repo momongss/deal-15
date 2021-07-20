@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import ChatBubble from '@/components/chat-bubble/chat-bubble.js';
 
