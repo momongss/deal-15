@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import ImgButton from '@/components/img-button/img-button.js';
 
