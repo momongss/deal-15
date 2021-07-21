@@ -1,0 +1,37 @@
+@import '@/styles/theme.scss';
+
+.alert {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  height: 88px;
+
+  padding: 16px 20px;
+  border-radius: 10px;
+
+  box-shadow: 0px 2px 4px 0px #00000040;
+
+  background-color: $color-off-white;
+}
+
+.alert-message {
+  @include text-small;
+  color: $color-title-active;
+}
+
+.alert-buttons {
+  display: flex;
+  justify-content: space-between;
+
+  .cancel-button {
+    @include link-small;
+    color: $color-title-active;
+  }
+
+  .confirm-button {
+    @include link-small;
+    color: $color-red;
+  }
+}
