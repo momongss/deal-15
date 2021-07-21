@@ -30,6 +30,10 @@
 
   border-bottom: 1px solid #00000040;
 
+  cursor: pointer;
+
+  user-select: none;
+
   &.normal {
     color: $color-title-active;
   }
