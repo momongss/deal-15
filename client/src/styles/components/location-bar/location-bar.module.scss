@@ -1,0 +1,17 @@
+@import '@/styles/theme.scss';
+
+.location-bar {
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+  height: 36px;
+
+  padding: 0 18px;
+
+  .place-name {
+    margin-left: 2px;
+    @include text-small;
+  }
+}
