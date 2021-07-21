@@ -23,6 +23,7 @@ export default class ImgBox extends Component {
       this.$dom.innerHTML = `
         <img src="${this._props.imageURL}">
       `;
+    }
   };
 
   addEvent = () => {

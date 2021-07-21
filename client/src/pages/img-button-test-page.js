@@ -11,6 +11,7 @@ export default class TestPage extends Component {
     this.ImgButton1 = new ImgButton({
       buttonType: 'add',
       imageCount: 2,
+
       onClickAdd: () => {
         console.log('add');
       },
