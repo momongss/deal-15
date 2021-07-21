@@ -20,9 +20,6 @@ export default class DropDown extends Component {
         return `<div class="${styles['item']} ${styles[item.state]}">${item.label}</div>`;
       })
       .join('');
-
-    this.$dom.firstChild.classList.add(styles['first']);
-    this.$dom.lastChild.classList.add(styles['last']);
   };
 
   addEvent = () => {
