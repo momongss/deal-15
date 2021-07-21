@@ -23,10 +23,10 @@ export default class DropDown extends Component {
   };
 
   addEvent = () => {
-    this.$dom.querySelectorAll(`.${styles['item']}`).forEach(($item) => {
-      $item.addEventListener('click', () => {
-        this._props.onClick($item.innerHTML);
-      });
+    this.$dom.addEventListener('click', (e) => {
+      if (e.target.classList.contains(styles.item)) {
+        this._props.onClick(e.target.textContent);
+      }
     });
   };
 }
