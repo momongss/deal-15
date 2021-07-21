@@ -1,0 +1,87 @@
+@import '@/styles/theme.scss';
+
+.header {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 56px;
+
+  button {
+    background-color: rgba(255, 255, 255, 0);
+    color: $color-title-active;
+
+    font-size: 20px;
+  }
+
+  &.none {
+    background-color: rgba(255, 255, 255, 0);
+
+    button {
+      color: $color-white;
+    }
+  }
+
+  &.white {
+    background-color: $color-white;
+  }
+
+  &.grey {
+    background-color: $color-off-white;
+  }
+}
+
+.left-area {
+  min-width: 33.3%;
+  flex-grow: 1;
+
+  display: flex;
+  justify-content: flex-start;
+
+  .back-button {
+    margin-left: 7px;
+  }
+}
+
+.middle-area {
+  min-width: 33.3%;
+  flex-grow: 1;
+
+  display: flex;
+  justify-content: center;
+
+  .title {
+    @include text-medium;
+  }
+}
+
+.right-area {
+  min-width: 33.3%;
+  flex-grow: 1;
+
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin-right: 9px;
+  }
+
+  .write-submit-button {
+    color: $color-grey1;
+
+    &.checked {
+      color: $color-primary1;
+    }
+  }
+
+  .exit-button {
+    color: $color-red;
+  }
+
+  .option-button {
+    color: $color-white;
+  }
+}
