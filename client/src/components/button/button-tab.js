@@ -38,14 +38,8 @@ export default class ButtonTab extends Component {
   };
 
   addEvent = () => {
-    this.$dom.addEventListener('click', (e) => {
-      this._props.onClick();
-      // test 코드입니다.
-      if (this._state.buttonState === 'selected') {
-        this.setState({ buttonState: '' });
-      } else {
-        this.setState({ buttonState: 'selected' });
-      }
+    this.$dom.addEventListener('click', () => {
+      this._props.onClick(this._props.index);
     });
   };
 }
