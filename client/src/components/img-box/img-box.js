@@ -14,7 +14,6 @@ export default class ImgBox extends Component {
     this.$dom.classList.add(styles[this._props.type]);
 
     this.render();
-    this.addEvent();
   }
 
   render = () => {
@@ -28,6 +27,8 @@ export default class ImgBox extends Component {
   };
 
   addEvent = () => {
-    this.$dom.addEventListener('click', this._props.onClick);
+    if (this._props.onClick) {
+      this.$dom.addEventListener('click', this._props.onClick);
+    }
   };
 }

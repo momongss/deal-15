@@ -11,17 +11,19 @@ export default class TestPage extends Component {
     this.ImgButton1 = new ImgButton({
       buttonType: 'add',
       imageCount: 2,
-      onClick: () => {
+
+      onClickAdd: () => {
         console.log('add');
       },
     });
 
     this.ImgButton2 = new ImgButton({
       buttonType: 'image',
-      onClick: () => {
+      imageURL: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+      onClickAdd: () => {
         console.log('image');
       },
-      onRemove: () => {
+      onClickRemove: () => {
         console.log('remove');
       },
     });

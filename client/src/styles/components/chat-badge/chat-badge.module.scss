@@ -1,0 +1,23 @@
+@import '@/styles/theme.scss';
+
+.chat-badge {
+  $badge-height: 20px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  height: $badge-height;
+
+  border-radius: $badge-height / 2;
+  background-color: $color-primary3;
+
+  padding: 0 7px;
+}
+
+.chat-count {
+  color: $color-white;
+  @include text-x-small;
+
+  text-align: center;
+}

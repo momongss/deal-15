@@ -5,6 +5,10 @@
   height: 76px;
 
   position: relative;
+
+  &.add {
+    cursor: pointer;
+  }
 }
 
 .content-wrapper {

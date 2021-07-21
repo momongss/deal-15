@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 module.exports = {
   port: normalizePort(process.env.PORT, '3000'),
   env: process.env.NODE_ENV || 'production',

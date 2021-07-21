@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import styles from '@/styles/components/button/button-location.module.scss';
 

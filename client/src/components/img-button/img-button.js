@@ -7,6 +7,7 @@ import styles from '@/styles/components/img-button/img-button.module.scss';
 
 const MAX_IMAGE_UPLOAD = 10;
 
+// props : { buttonType, imageURL, onClickAdd, onClickRemove }
 export default class ImgButton extends Component {
   constructor(props) {
     super(props);
@@ -15,10 +16,13 @@ export default class ImgButton extends Component {
       className: styles['img-button'],
     });
 
+    if (props.buttonType === 'add') {
+      this.$dom.classList.add(styles.add);
+    }
+
     this.ImgBox = new ImgBox({
       type: 'medium',
-      imageURL: '',
-      onClick: () => {},
+      imageURL: this._props.imageURL || '',
     });
 
     this.render();
@@ -28,13 +32,13 @@ export default class ImgButton extends Component {
   render = () => {
     if (this._props.buttonType === 'add') {
       this.$dom.innerHTML = `
-        <div class="${styles['ImgBox']}"></div>
+        <div class="${styles['ImgBox']} ${styles['add']}"></div>
         <div class="${styles['content-wrapper']}">
           <img src="${DefaultImg}">
           <div class="${styles['image-count']}">${this._props.imageCount}/${MAX_IMAGE_UPLOAD}</div>
         </div>
       `;
-    } else {
+    } else if (this._props.buttonType === 'image') {
       this.$dom.innerHTML = `
         <div class="${styles['ImgBox']}"></div>
         <button class="${styles['remove-button']}">
@@ -47,16 +51,15 @@ export default class ImgButton extends Component {
   };
 
   addEvent = () => {
-    this.$dom.addEventListener('click', (e) => {
-      this._props.onClick();
-    });
-
-    if (this._props.buttonType === 'add') return;
-
-    const $removeButton = this.$dom.querySelector(`.${styles['remove-button']}`);
-    $removeButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      this._props.onRemove();
-    });
+    if (this._props.buttonType === 'add') {
+      this.$dom.addEventListener('click', (e) => {
+        this._props.onClickAdd();
+      });
+    } else if (this._props.buttonType === 'image') {
+      const $removeButton = this.$dom.querySelector(`.${styles['remove-button']}`);
+      $removeButton.addEventListener('click', (e) => {
+        this._props.onClickRemove();
+      });
+    }
   };
 }

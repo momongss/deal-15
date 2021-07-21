@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import ButtonFab from '@/components/Button/button-fab';
 import ButtonLocation from '@/components/Button/button-location';

@@ -1,4 +1,4 @@
-import Component from '@/components/Component';
+import Component from '@/components/component';
 
 import TextInput from '@/components/text-input/text-input.js';
 
