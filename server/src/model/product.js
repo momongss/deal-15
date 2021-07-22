@@ -12,6 +12,7 @@ class Product {
     deleted = 0,
     createdDatetime = null,
     updatedDatetime = null,
+    deletedDatetime = null,
   ) {
     this.id = id;
     this.userId = userId;
@@ -22,8 +23,10 @@ class Product {
     this.location = location;
     this.status = status;
     this.views = views;
-    (this.deleted = deleted), (this.createdDatetime = createdDatetime);
+    this.deleted = deleted;
+    this.createdDatetime = createdDatetime;
     this.updatedDatetime = updatedDatetime;
+    this.deletedDatetime = deletedDatetime;
   }
 
   setNew(newProduct) {

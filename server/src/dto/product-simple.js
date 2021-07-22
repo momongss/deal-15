@@ -4,7 +4,8 @@ class ProductSimple {
     this.image = imageUri;
     this.title = product.title;
     this.watch = watch;
-    this.createDatetime = product.createDatetime;
+    this.location = product.location;
+    this.createdDatetime = product.createdDatetime;
     this.price = product.price;
     this.count = {
       chat: count.chat,
