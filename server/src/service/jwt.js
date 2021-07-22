@@ -10,7 +10,7 @@ const userDao = require('@src/dao/user');
 
 const jwtSecret = Buffer.from(jwtConfig.secret, 'base64');
 
-function issueNewToken(user) {
+async function issueNewTokenAsync(user) {
   const accessToken = jwt.sign(
     {
       type: 'access',
@@ -26,12 +26,12 @@ function issueNewToken(user) {
 
   const refreshTokenValidUntil = dayjs().add(jwtConfig.refreshExpiresIn, 'second').toDate();
   const refreshTokenEntity = new RefreshToken(null, user.id, refreshTokenValidUntil, null);
-  const refreshTokenId = refreshTokenDao.add(refreshTokenEntity);
+  await refreshTokenDao.addAsync(refreshTokenEntity);
 
   const refreshToken = jwt.sign(
     {
       type: 'refresh',
-      tokenId: refreshTokenId,
+      tokenId: refreshTokenEntity.id,
     },
     jwtSecret,
     {
@@ -46,25 +46,27 @@ function issueNewToken(user) {
   };
 }
 
-function refreshToken(refreshTokenId) {
-  const foundRefreshToken = refreshTokenDao.find(refreshTokenId);
+async function refreshTokenAsync(refreshTokenId) {
+  const foundRefreshToken = await refreshTokenDao.findAsync(refreshTokenId);
   if (foundRefreshToken === null) {
     throw new ApiError('NON_EXISTENT_REFRESH_TOKEN', '존재하지 않는 refresh token입니다.', 404);
   }
 
-  const user = userDao.find(foundRefreshToken.userId);
-  return issueNewToken(user);
+  await removeRefreshTokenAsync(refreshTokenId);
+  const user = await userDao.findAsync(foundRefreshToken.userId);
+  return await issueNewTokenAsync(user);
 }
 
-function removeRefreshToken(refreshTokenId) {
-  if (!refreshTokenDao.exists(refreshTokenId)) {
+async function removeRefreshTokenAsync(refreshTokenId) {
+  const existence = await refreshTokenDao.existsAsync(refreshTokenId);
+  if (!existence) {
     throw new ApiError('NON_EXISTENT_REFRESH_TOKEN', '존재하지 않는 refresh token입니다.', 404);
   }
-  refreshTokenDao.remove(refreshTokenId);
+  await refreshTokenDao.removeAsync(refreshTokenId);
 }
 
 module.exports = {
-  issueNewToken,
-  refreshToken,
-  removeRefreshToken,
+  issueNewTokenAsync,
+  refreshTokenAsync,
+  removeRefreshTokenAsync,
 };
