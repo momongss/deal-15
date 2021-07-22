@@ -1,0 +1,64 @@
+@import '@/styles/theme.scss';
+
+.chat-list-item {
+  width: 100%;
+  height: 72px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+
+  .area-1 {
+    flex-grow: 1;
+    height: 100%;
+
+    .name {
+      @include link-small;
+      color: $color-title-active;
+    }
+
+    .message {
+      @include text-small;
+      color: $color-grey1;
+    }
+  }
+
+  .area-2 {
+    width: 64px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    .time-stamp {
+      @include text-x-small;
+      color: $color-grey1;
+
+      margin-bottom: 4px;
+    }
+
+    .message-count {
+      background-color: $color-primary3;
+      width: 20px;
+      height: 20px;
+
+      border-radius: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @include text-x-small;
+      color: $color-white;
+    }
+  }
+
+  .area-3 {
+    margin-left: 16px;
+  }
+}

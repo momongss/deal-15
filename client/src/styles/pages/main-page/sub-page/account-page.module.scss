@@ -1,0 +1,80 @@
+@import '@/styles/theme.scss';
+
+.account-page-wrapper {
+  z-index: 2;
+
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: $color-white;
+
+  position: absolute;
+  top: 0;
+  left: 100vw;
+  transition-duration: 0.7s;
+
+  &.show {
+    transform: translate(-100vw, 0);
+    transition-duration: 0.7s;
+  }
+}
+
+.page-main {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  &.login {
+    & > * {
+      width: 290px;
+      height: 42px;
+
+      margin-top: 24px;
+    }
+
+    .signup-move-button {
+      @include link-small;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &.signup {
+    & > * {
+      width: 290px;
+      height: 42px;
+    }
+
+    .label {
+      @include text-small;
+      height: 24px;
+      color: $color-title-active;
+
+      margin-top: 24px;
+      margin-bottom: 5px;
+    }
+
+    button {
+      margin-top: 24px;
+    }
+  }
+
+  &.logined {
+    & > * {
+      width: 290px;
+      height: 42px;
+
+      margin-top: 24px;
+    }
+
+    .user-name {
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

@@ -29,7 +29,6 @@ export default class TestPage extends Component {
       onClick: (id) => {
         console.log(id);
       },
-      onClickLike: () => {},
     });
 
     this.render();

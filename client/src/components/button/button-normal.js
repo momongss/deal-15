@@ -42,10 +42,12 @@ export default class ButtonNormal extends Component {
   };
 
   addEvent = () => {
-    this.$dom.addEventListener('click', () => {
-      if (this._state.buttonState !== 'disable') {
-        this._props.onClick();
-      }
-    });
+    if (this._props.onClick != null) {
+      this.$dom.addEventListener('click', () => {
+        if (this._state.buttonState !== 'disable') {
+          this._props.onClick();
+        }
+      });
+    }
   };
 }

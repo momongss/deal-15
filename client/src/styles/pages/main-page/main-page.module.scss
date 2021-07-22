@@ -1,0 +1,42 @@
+@import '@/styles/theme.scss';
+
+.page-wrapper {
+  position: relative;
+}
+
+.main-page-wrapper {
+  width: 100%;
+}
+
+.header-wrapper {
+  & > * {
+    z-index: 1;
+
+    width: 100vw;
+  }
+}
+
+.drop-down-wrapper {
+  display: none;
+  position: fixed;
+  top: 48px;
+  left: calc(50% - 82.5px);
+
+  width: 165px;
+
+  &.show {
+    display: inline-block;
+  }
+
+  & > * {
+    z-index: 1;
+  }
+}
+
+.app-main {
+  margin-top: 56px;
+}
+
+.product-list {
+  position: relative;
+}

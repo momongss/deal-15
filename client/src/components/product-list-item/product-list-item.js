@@ -7,28 +7,7 @@ import likeActiveImg from '@/assets/images/like_active.svg';
 
 import styles from '@/styles/components/product-list-item/product-list-item.module.scss';
 
-function getTimeStamp(createdDatetime) {
-  const today = new Date();
-  const timeValue = new Date(createdDatetime);
-
-  const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-  if (betweenTime < 1) return '방금전';
-  if (betweenTime < 60) {
-    return `${betweenTime}분전`;
-  }
-
-  const betweenTimeHour = Math.floor(betweenTime / 60);
-  if (betweenTimeHour < 24) {
-    return `${betweenTimeHour}시간전`;
-  }
-
-  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-  if (betweenTimeDay < 365) {
-    return `${betweenTimeDay}일전`;
-  }
-
-  return `${Math.floor(betweenTimeDay / 365)}년전`;
-}
+import { getTimeStamp } from '@/utils/getTimeStamp';
 
 // proprs { title, location, timeStamp, price, commentCount, likeCount }
 export default class ProductListItem extends Component {
@@ -69,9 +48,7 @@ export default class ProductListItem extends Component {
       <div class="${styles['item-info-container']}">
         <div class="${styles['info-header']}">
           <div class="${styles['title']}">${this.productData.title}</div>
-          <div class="${styles['like-button']}">
-            ${this.productData.watch ? `<img src="${likeActiveImg}">` : `<img src="${likeImg}">`}
-          </div>
+          ${this.buttonTemplate()}
         </div>
         <div class="${styles['info-main']}">
           <div class="${styles['info-detail']}">
@@ -81,14 +58,7 @@ export default class ProductListItem extends Component {
           <div class="${styles['price']}">${this.productData.price.toLocaleString()}</div>
         </div>
         <div class="${styles['info-stats']}">
-          <div class="${styles['comment']}">
-            <i class="wmi-message-square"></i>
-            <span>${this.productData.count.chat}</span>
-          </div>
-          <div class="${styles['like']}">
-            <i class="wmi-heart"></i>
-            <span>${this.productData.count.watch}</span>
-          </div>
+          ${this.infoStatsTemplate()}
         </div>
       </div>
     `;
@@ -96,16 +66,60 @@ export default class ProductListItem extends Component {
     this.replaceElement(this.$dom.querySelector('.ImgBox'), this.ImgBox.$dom);
   };
 
+  buttonTemplate = () => {
+    if (this._props.sale) {
+      return `
+        <div class="${styles['option-button']}">
+          <i class="wmi-more-vertical"></i>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="${styles['like-button']}">
+          ${this.productData.watch ? `<img src="${likeActiveImg}">` : `<img src="${likeImg}">`}
+        </div>
+      `;
+    }
+  };
+
+  infoStatsTemplate = () => {
+    let template = '';
+    if (this.productData.count.chat > 0) {
+      template += `
+        <div class="${styles['comment']}">
+          <i class="wmi-message-square"></i>
+          <span>${this.productData.count.chat}</span>
+        </div>
+      `;
+    }
+
+    if (this.productData.count.watch > 0) {
+      template += `
+        <div class="${styles['like']}">
+          <i class="wmi-heart"></i>
+          <span>${this.productData.count.watch}</span>
+        </div>
+      `;
+    }
+
+    return template;
+  };
+
   addEvent = () => {
     this.$dom.addEventListener('click', (e) => {
-      console.log(e.target.className, e.target.parentElement.className);
       if (
         e.target.className === styles['like-button'] ||
         e.target.parentElement.className === styles['like-button']
       ) {
         this.toggleWatch();
+      } else if (
+        e.target.className === styles['option-button'] ||
+        e.target.parentElement.className === styles['option-button']
+      ) {
+        console.log('option');
+      } else {
+        this._props.onClick(this.productData.id);
       }
-      this._props.onClick(this._props.id);
     });
   };
 }
