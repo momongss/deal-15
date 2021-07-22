@@ -7,7 +7,7 @@ import ImgButton from '@/components/img-button/img-button';
 import ButtonCategory from '@/components/button/button-category';
 import LocationBar from '@/components/location-bar/location-bar';
 
-import { api } from '@/utils/api';
+import { uploadApi, postApi, getApi, putApi, deleteApi } from '@/utils/api';
 
 export default class WritePage extends Component {
   constructor(props) {
@@ -59,21 +59,25 @@ export default class WritePage extends Component {
 
     this.render();
 
-    api.getLocation().then((location) => {
-      this.LocationBar = new LocationBar({
-        place: location,
-      });
+    getApi('/users/me/locations', (locations) => {
+      getApi('/users/me/locations/selection', (selection) => {
+        const location = locations[selection.position - 1].location;
+        this.LocationBar = new LocationBar({
+          place: location,
+        });
 
-      this.replaceElement(this.$dom.querySelector('.LocationBar'), this.LocationBar.$dom);
+        this.replaceElement(this.$dom.querySelector('.LocationBar'), this.LocationBar.$dom);
+      });
     });
 
-    api.getCategories().then((categoryList) => {
+    getApi('/categories', (categoryList) => {
+      console.log(categoryList);
       const $categoryList = this.$dom.querySelector(`.${styles['category-list']}`);
       for (const category of categoryList) {
         const CategoryButton = new ButtonCategory({
           categoryId: category.id,
           buttonState: 'disable',
-          buttonText: category.name,
+          buttonText: category.title,
           onClick: this.onClickCategory,
         });
         this.CategoryButtonList.push(CategoryButton);
