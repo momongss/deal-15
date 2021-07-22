@@ -36,14 +36,10 @@ export default class MainPage extends Component {
     props.$app.appendChild(this.AccountPage.$dom);
     props.$app.appendChild(this.MenuPage.$dom);
 
-    console.log(store);
-
     this._state = {
       location: store.state.selection.location,
       category: null,
     };
-
-    console.log(this._state);
 
     this.HeaderMain = new HeaderMain({
       location: '장소',
@@ -80,16 +76,16 @@ export default class MainPage extends Component {
         },
       ],
 
-      onClick: (e, location) => {
-        if (location === '내 동네 설정하기') {
-          // 동네 설정 페이지로 이동
+      onClick: (e, label) => {
+        if (label === '내 동네 설정하기') {
+          location.href = '/location';
           return;
         } else if (location == null) {
           return;
         }
 
         e._clickecByDropBox = true;
-        this.setState({ location });
+        this.setState({ label });
       },
     });
 

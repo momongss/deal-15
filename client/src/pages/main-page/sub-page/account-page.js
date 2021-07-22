@@ -48,7 +48,6 @@ export default class AccountPage extends Component {
       '/auth/token',
       { username },
       (data) => {
-        console.log('hh');
         const payload = jwtDecode(data.access);
         const login = {
           access: data.access,

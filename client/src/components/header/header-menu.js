@@ -36,8 +36,10 @@ export default class HeaderMenu extends Component {
         ${this.rightAreaTemplate()}
       </div>
     `;
+
     this.addEvent();
   };
+
   addEvent = () => {
     const $backButton = this.$dom.querySelector(`.${styles['back-button']}`);
     $backButton.addEventListener('click', this._props.onClickBack);
