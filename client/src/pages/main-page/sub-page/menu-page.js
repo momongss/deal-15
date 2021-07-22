@@ -8,7 +8,9 @@ import classNames from 'classnames';
 import styles from '@/styles/pages/main-page/sub-page/menu-page.module.scss';
 import common from '@/styles/common.module.scss';
 
-import { api } from '@/utils/api';
+import { getApi } from '@/utils/api';
+
+import chatImage from '@/assets/images/chat.jpg';
 
 const TAB0 = 0;
 const TAB1 = 1;
@@ -67,47 +69,52 @@ export default class MenuPage extends Component {
     const $itemList = this.$dom.querySelector(`.${styles['menu-main']}`);
 
     if (this.currentTab === TAB0) {
-      for (const item of api.getSaleItemList()) {
-        const productListItem = new ProductListItem({
-          productData: item,
-          sale: true,
-          onClick: (productId) => {
-            this.moveProductDatailPage(productId);
-          },
-        });
+      getApi('/users/me/sales', (items) => {
+        const productListItems = items.map(
+          (p) =>
+            new ProductListItem({
+              productData: item,
+              sale: true,
+              onClick: (productId) => {
+                this.moveProductDatailPage(productId);
+              },
+            }),
+        );
 
-        $itemList.appendChild(productListItem.$dom);
-      }
+        if (productListItems.length === 0) {
+          $itemList.classList.add(styles.empty);
+        } else {
+          for (const item of productListItems) {
+            $itemList.appendChild(item.$dom);
+          }
+        }
+      });
     } else if (this.currentTab === TAB1) {
-      for (const chat of api.getChatList()) {
-        const chatListItem = new ChatListItem({
-          id: chat.id,
-          name: chat.name,
-          lastMessage: chat.lastMessage,
-          lastDatetime: chat.lastDatetime,
-          messageCount: chat.messageCount,
-          image: chat.image,
-          onClick: (chatId) => {
-            console.log(chatId);
-          },
-        });
-
-        $itemList.appendChild(chatListItem.$dom);
-      }
+      $itemList.innerHTML = `<div class="${styles.chat}">
+        <img src="${chatImage}" alt="나듀..." />
+        <p>우리도 만들고 싶었다구 ㅠㅠ</p>
+      </div>`;
     } else if (this.currentTab === TAB2) {
-      for (const item of api.getWatchItemList()) {
-        const productListItem = new ProductListItem({
-          productData: item,
-          sale: false,
-          onClick: (productId) => {
-            this.moveProductDatailPage(productId);
-          },
-        });
+      getApi('/users/me/watches', (products) => {
+        const productListItems = items.map(
+          (p) =>
+            new ProductListItem({
+              productData: item,
+              sale: false,
+              onClick: (productId) => {
+                this.moveProductDatailPage(productId);
+              },
+            }),
+        );
 
-        $itemList.appendChild(productListItem.$dom);
-      }
-    } else {
-      console.error('존재하지 않는 탭');
+        if (productListItems.length === 0) {
+          $itemList.classList.add(styles.empty);
+        } else {
+          for (const item of productListItems) {
+            $itemList.appendChild(item.$dom);
+          }
+        }
+      });
     }
   };
 

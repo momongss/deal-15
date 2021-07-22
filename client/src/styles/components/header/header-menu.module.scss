@@ -40,6 +40,12 @@
   display: flex;
   justify-content: flex-start;
 
+  &.noneLeft {
+    .back-button {
+      display: none;
+    }
+  }
+
   .back-button {
     margin-left: 7px;
   }

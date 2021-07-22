@@ -1,6 +1,9 @@
 import Component from '@/components/component';
+
+import classNames from 'classnames';
 import styles from '@/styles/components/header/header-menu.module.scss';
-// props : { title, menuType, menuColor, menuState, onClickBack, onClickExit, onClickSubmit, onClickOption }
+
+// props : { title, menuType, noneLeft, menuColor, menuState, onClickBack, onClickExit, onClickSubmit, onClickOption }
 export default class HeaderMenu extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +24,7 @@ export default class HeaderMenu extends Component {
   };
   render = () => {
     this.$dom.innerHTML = `
-      <div class="${styles['left-area']}">
+      <div class="${classNames(styles['left-area'], { [styles.noneLeft]: this._props.noneLeft })}">
         <button class="${styles['back-button']}">
           <i class="wmi-chevron-left"></i>
         </button>

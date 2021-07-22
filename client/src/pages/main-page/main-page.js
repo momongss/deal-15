@@ -13,20 +13,12 @@ import MenuPage from './sub-page/menu-page';
 
 import DropDown from '@/components/drop-down/drop-down';
 
-import { api } from '@/utils/api';
+import { getApi } from '@/utils/api';
 import store from '@/utils/store';
 
 export default class MainPage extends Component {
-  checkGlobalState() {
-    if (!store.state.login) {
-      location.href = '/login';
-      return true;
-    }
-  }
-
   constructor(props) {
     super(props);
-    if (this.checkGlobalState()) return;
 
     this.$dom = this.createDom('div', {
       className: classNames(styles['main-page-wrapper'], common['sub-page']),
@@ -35,7 +27,7 @@ export default class MainPage extends Component {
       onClickCategoryItem: this.filterCategory,
     });
     this.AccountPage = new AccountPage({
-      type: 'login',
+      type: 'logined',
     });
     this.MenuPage = new MenuPage({});
 
@@ -44,10 +36,14 @@ export default class MainPage extends Component {
     props.$app.appendChild(this.AccountPage.$dom);
     props.$app.appendChild(this.MenuPage.$dom);
 
+    console.log(store);
+
     this._state = {
-      location: api.getLocation(),
-      categoryId: null,
+      location: store.state.selection.location,
+      category: null,
     };
+
+    console.log(this._state);
 
     this.HeaderMain = new HeaderMain({
       location: '장소',
@@ -74,7 +70,10 @@ export default class MainPage extends Component {
 
     this.DropDown = new DropDown({
       itemList: [
-        ...api.getLocationList(),
+        ...store.state.locations.map((l) => ({
+          label: l.location,
+          state: store.state.selection.position === l.position ? 'highlighted' : 'normal',
+        })),
         {
           label: '내 동네 설정하기',
           state: 'normal',
@@ -100,7 +99,7 @@ export default class MainPage extends Component {
 
   setState = (nextState) => {
     if (nextState.location != null) this._state.location = nextState.location;
-    if (nextState.categoryId != null) this._state.categoryId = nextState.categoryId;
+    if (nextState.category != null) this._state.category = nextState.category;
 
     this.render();
   };
@@ -120,28 +119,35 @@ export default class MainPage extends Component {
 
     const $productList = this.$dom.querySelector(`.${styles['product-list']}`);
 
-    const productList = api.getProducDatatList(this._state.location, this._state.categoryId).map((productData) => {
-      return new ProductListItem({
-        productData,
-        onClick: (id) => {
-          console.log(id);
-        },
-      });
-    });
-
-    for (const product of productList) {
-      $productList.appendChild(product.$dom);
+    let target = '/products?location=' + this._state.location;
+    if (this._state.category) {
+      target += '&category=' + this._state.category;
     }
+
+    getApi(target, (products) => {
+      const productList = products.map((product) => {
+        return new ProductListItem({
+          productData: product,
+          onClick: (id) => {
+            console.log(id);
+          },
+        });
+      });
+
+      for (const product of productList) {
+        $productList.appendChild(product.$dom);
+      }
+    });
 
     this.replaceElement(this.$dom.querySelector('.Header'), this.HeaderMain.$dom);
     this.replaceElement(this.$dom.querySelector('.DropDown'), this.DropDown.$dom);
   };
 
-  filterCategory = (categoryId) => {
-    console.log(categoryId, '카테고리 필터');
+  filterCategory = (category) => {
+    console.log(category, '카테고리 필터');
     this.CategoryPage.togglePage();
 
-    this.setState({ categoryId });
+    this.setState({ category });
   };
 
   getLoginInfo = () => {
