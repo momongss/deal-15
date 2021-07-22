@@ -54,7 +54,8 @@ export default class HeaderMenu extends Component {
       </div>
     `;
 
-    this.addEvent();
+      this.addEvent();
+    }
   };
 
   addEvent = () => {
