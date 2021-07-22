@@ -16,6 +16,10 @@ export default class ImgButton extends Component {
       className: styles['img-button'],
     });
 
+    this._state = {
+      imageCount: props.imageCount,
+    };
+
     if (props.buttonType === 'add') {
       this.$dom.classList.add(styles.add);
     }
@@ -29,13 +33,19 @@ export default class ImgButton extends Component {
     this.addEvent();
   }
 
+  setState = (nextState) => {
+    if (nextState.imageCount != null) this._state.imageCount = nextState.imageCount;
+
+    this.render();
+  };
+
   render = () => {
     if (this._props.buttonType === 'add') {
       this.$dom.innerHTML = `
         <div class="${styles['ImgBox']} ${styles['add']}"></div>
         <div class="${styles['content-wrapper']}">
           <img src="${DefaultImg}">
-          <div class="${styles['image-count']}">${this._props.imageCount}/${MAX_IMAGE_UPLOAD}</div>
+          <div class="${styles['image-count']}">${this._state.imageCount}/${MAX_IMAGE_UPLOAD}</div>
         </div>
       `;
     } else if (this._props.buttonType === 'image') {
@@ -53,12 +63,12 @@ export default class ImgButton extends Component {
   addEvent = () => {
     if (this._props.buttonType === 'add') {
       this.$dom.addEventListener('click', (e) => {
-        this._props.onClickAdd();
+        this._props.onClickAdd(e);
       });
     } else if (this._props.buttonType === 'image') {
       const $removeButton = this.$dom.querySelector(`.${styles['remove-button']}`);
       $removeButton.addEventListener('click', (e) => {
-        this._props.onClickRemove();
+        this._props.onClickRemove(e);
       });
     }
   };

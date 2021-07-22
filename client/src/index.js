@@ -7,6 +7,7 @@ import '@/assets/fonts/woowa-market-icons.css';
 import MainPage from '@/pages/main-page/main-page';
 import Loginpage from '@/pages/login-page';
 import ProductPage from '@/pages/product-page/product-detail-page';
+import WritePage from '@/pages/write-page/write-page';
 import NotFoundPage from '@/pages/404-page';
 
 const $app = document.querySelector('#app');
@@ -21,6 +22,9 @@ switch (true) {
     break;
   case !!pathname.match(/^\/products\/\d+$/):
     new ProductPage({ $app });
+    break;
+  case !!pathname.match(/^\/write/):
+    new WritePage({ $app });
     break;
   default:
     new NotFoundPage({ $app });

@@ -17,12 +17,16 @@ export default class ButtonCategory extends Component {
 
     this.render();
     this.addEvent();
-
-    this._props.onClick();
   }
 
+  setState = (nextState) => {
+    if (nextState.buttonState != null) this._state.buttonState = nextState.buttonState;
+
+    this.render();
+  };
+
   render = () => {
-    if (this._props.buttonState === 'disable') {
+    if (this._state.buttonState === 'disable') {
       this.$dom.classList.add(styles['disable']);
     } else {
       this.$dom.classList.remove(styles['disable']);
@@ -34,6 +38,8 @@ export default class ButtonCategory extends Component {
   };
 
   addEvent = () => {
-    this.$dom.addEventListener('click', this._props.onClick);
+    this.$dom.addEventListener('click', () => {
+      this._props.onClick(this._props.categoryId);
+    });
   };
 }

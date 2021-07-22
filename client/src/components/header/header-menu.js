@@ -20,7 +20,6 @@ export default class HeaderMenu extends Component {
     }
 
     this.render();
-    this.addEvent();
   }
 
   setState = (nextState) => {
@@ -54,7 +53,8 @@ export default class HeaderMenu extends Component {
         ${this.rightAreaTemplate()}
       </div>
     `;
-    }
+
+    this.addEvent();
   };
 
   addEvent = () => {
@@ -71,7 +71,7 @@ export default class HeaderMenu extends Component {
     const $submitButton = this.$dom.querySelector(`.${styles['write-submit-button']}`);
     if ($submitButton != null) {
       $submitButton.addEventListener('click', () => {
-        if (this._props.menuState === 'checked') {
+        if (this._state.menuState === 'checked') {
           this._props.onClickSubmit();
         }
       });
