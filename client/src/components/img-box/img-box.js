@@ -7,6 +7,10 @@ export default class ImgBox extends Component {
   constructor(props) {
     super(props);
 
+    this._state = {
+      ...props,
+    };
+
     this.$dom = this.createDom('div', {
       className: styles['img-box'],
     });
@@ -16,12 +20,18 @@ export default class ImgBox extends Component {
     this.render();
   }
 
+  setState = (nextState) => {
+    if (nextState.imageURL) this._state.imageURL = nextState.imageURL;
+
+    this.render();
+  };
+
   render = () => {
-    if (this._props.imageURL == null || this._props.imageURL === '') {
+    if (this._props.imageURL == null || this._state.imageURL === '') {
       this.$dom.innerHTML = ``;
     } else {
       this.$dom.innerHTML = `
-        <img src="${this._props.imageURL}">
+        <img src="${this._state.imageURL}">
       `;
     }
   };

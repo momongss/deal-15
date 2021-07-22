@@ -24,5 +24,12 @@ export default class ProductBar extends Component {
     `;
   };
 
-  addEvent = () => {};
+  addEvent = () => {
+    if (this._props.onClick != null) {
+      const $mainButton = this.$dom.querySelector(`.${styles['main-button']}`);
+      $mainButton.addEventListener('click', (e) => {
+        this._props.onClick();
+      });
+    }
+  };
 }

@@ -1,0 +1,64 @@
+@import '@/styles/theme.scss';
+
+.product-detail-page-wrapper {
+  .header-wrapper {
+    height: 320px;
+
+    position: relative;
+  }
+
+  &.sell {
+    .page-main {
+      padding: 24px 6px 32px 16px;
+    }
+  }
+
+  .page-main {
+    padding: 0 16px 32px 16px;
+
+    .title {
+      @include text-large;
+      color: $color-title-active;
+      margin-top: 20px;
+    }
+
+    .info {
+      @include text-x-small;
+      color: $color-grey1;
+      margin-top: 8px;
+    }
+
+    .content {
+      @include text-medium;
+      color: $color-title-active;
+      margin-top: 16px;
+    }
+
+    .status {
+      @include text-x-small;
+      color: $color-grey1;
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+  }
+}
+
+.drop-down-wrapper {
+  display: none;
+  position: fixed;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  & > * {
+    position: absolute;
+    top: 48px;
+    right: 16px;
+  }
+
+  &.show {
+    display: block;
+  }
+}

@@ -11,7 +11,7 @@ import MenuPage from './sub-page/menu-page';
 
 import DropDown from '@/components/drop-down/drop-down';
 
-import { getLocationList, getLocation, getProducDatatList } from '@/utils/api';
+import { api } from '@/utils/api';
 
 export default class MainPage extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ export default class MainPage extends Component {
     props.$app.appendChild(this.MenuPage.$dom);
 
     this._state = {
-      location: getLocation(),
+      location: api.getLocation(),
       categoryId: null,
     };
 
@@ -61,7 +61,7 @@ export default class MainPage extends Component {
 
     this.DropDown = new DropDown({
       itemList: [
-        ...getLocationList(),
+        ...api.getLocationList(),
         {
           label: '내 동네 설정하기',
           state: 'normal',
@@ -106,16 +106,16 @@ export default class MainPage extends Component {
 
     const $productList = this.$dom.querySelector(`.${styles['product-list']}`);
 
-    const productList = getProducDatatList(this._state.location, this._state.categoryId).map(
-      (productData) => {
+    const productList = api
+      .getProducDatatList(this._state.location, this._state.categoryId)
+      .map((productData) => {
         return new ProductListItem({
           productData,
           onClick: (id) => {
             console.log(id);
           },
         });
-      },
-    );
+      });
 
     for (const product of productList) {
       $productList.appendChild(product.$dom);

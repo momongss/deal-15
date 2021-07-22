@@ -6,7 +6,7 @@ import ChatListItem from '@/components/chat-list-item/chat-list-item';
 
 import styles from '@/styles/pages/main-page/sub-page/menu-page.module.scss';
 
-import { getWatchItemList, getChatList, getSaleItemList } from '@/utils/api';
+import { api } from '@/utils/api';
 
 const TAB0 = 0;
 const TAB1 = 1;
@@ -64,7 +64,7 @@ export default class MenuPage extends Component {
     const $itemList = this.$dom.querySelector(`.${styles['menu-main']}`);
 
     if (this.currentTab === TAB0) {
-      for (const item of getSaleItemList()) {
+      for (const item of api.getSaleItemList()) {
         const productListItem = new ProductListItem({
           productData: item,
           sale: true,
@@ -76,7 +76,7 @@ export default class MenuPage extends Component {
         $itemList.appendChild(productListItem.$dom);
       }
     } else if (this.currentTab === TAB1) {
-      for (const chat of getChatList()) {
+      for (const chat of api.getChatList()) {
         const chatListItem = new ChatListItem({
           id: chat.id,
           name: chat.name,
@@ -92,7 +92,7 @@ export default class MenuPage extends Component {
         $itemList.appendChild(chatListItem.$dom);
       }
     } else if (this.currentTab === TAB2) {
-      for (const item of getWatchItemList()) {
+      for (const item of api.getWatchItemList()) {
         const productListItem = new ProductListItem({
           productData: item,
           sale: false,

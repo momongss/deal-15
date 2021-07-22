@@ -29,7 +29,7 @@ export default class ImgNav extends Component {
       return;
     }
 
-    this._state.navPosition = nextState.navPosition;
+    this._state.navPosition = parseInt(nextState.navPosition);
     this.render();
   };
 
@@ -37,9 +37,17 @@ export default class ImgNav extends Component {
     let HTML = '';
     for (let i = 0; i < this._state.navCount; i++) {
       if (i === this._state.navPosition) {
-        HTML += `<div class="${styles['nav-button']} ${styles['selected']}"></div>`;
+        HTML += `
+          <div class="${styles['nav-button-wrapper']}" data-pos=${i}>
+            <div class="${styles['nav-button']} ${styles['selected']}" data-pos=${i}></div>
+          </div>  
+          `;
       } else {
-        HTML += `<div class="${styles['nav-button']}"></div>`;
+        HTML += `
+          <div class="${styles['nav-button-wrapper']}" data-pos=${i}>
+            <div class="${styles['nav-button']}" data-pos=${i}></div>
+          </div>
+          `;
       }
     }
 
@@ -48,7 +56,14 @@ export default class ImgNav extends Component {
 
   addEvent = () => {
     if (this._props.onClick) {
-      this.$dom.addEventListener('click', this._props.onClick);
+      this.$dom.addEventListener('click', (e) => {
+        if (
+          e.target.className === styles['nav-button-wrapper'] ||
+          e.target.parentElement.className === styles['nav-button-wrapper']
+        ) {
+          this._props.onClick(e.target.dataset.pos);
+        }
+      });
     }
   };
 }

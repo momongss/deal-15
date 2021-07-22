@@ -1,16 +1,21 @@
 @import '@/styles/theme.scss';
 
 .img-nav {
-  display: inline-block;
-  position: relative;
+  display: flex;
 
-  height: 48px;
-  background-color: $color-grey3;
+  justify-content: center;
 
-  padding: 0 16px;
+  width: 100%;
+  height: 36px;
+  background-color: $color-transparent;
 
-  border: 1px dashed #7b61ff;
-  border-radius: 5px;
+  position: absolute;
+  bottom: 0;
+
+  .nav-button-wrapper {
+    height: 100%;
+    width: 20px;
+  }
 }
 
 .nav-button {
@@ -27,6 +32,8 @@
   background-color: rgba(255, 255, 255, 0);
 
   margin: 0 4px;
+
+  cursor: pointer;
 
   &.selected {
     background-color: $color-white;

@@ -4,7 +4,8 @@ import '@/styles/reset.css';
 import '@/styles/global.scss';
 import '@/assets/fonts/woowa-market-icons.css';
 
-import TestPage from '@/pages/main-page/main-page';
+// import TestPage from '@/pages/main-page/main-page';
+import TestPage from '@/pages/product-page/product-detail-page';
 
 const $app = document.querySelector('#app');
 const testPage = new TestPage({ $app });
