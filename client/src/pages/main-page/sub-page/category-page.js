@@ -6,18 +6,27 @@ import classNames from 'classnames';
 import styles from '@/styles/pages/main-page/sub-page/category-page.module.scss';
 import common from '@/styles/common.module.scss';
 
+import { getApi } from '@/utils/api';
+
 export default class CategoryPage extends Component {
   constructor(props) {
     super(props);
 
-    this.categories = this.getCategories().map(({ id, name, image }) => {
-      return new CategoryListItem({
-        title: name,
-        imageURL: image,
-        onClick: () => {
-          this._props.onClickCategoryItem(id);
-        },
+    this._state = {
+      categoryListItems: [],
+    };
+
+    getApi('/categories', (categories) => {
+      const categoryListItems = categories.map(({ id, title, imageUri }) => {
+        return new CategoryListItem({
+          title: title,
+          imageURL: imageUri,
+          onClick: () => {
+            this._props.onClickCategoryItem(title);
+          },
+        });
       });
+      this.setState({ categoryListItems });
     });
 
     this.HeaderMenu = new HeaderMenu({
@@ -36,6 +45,11 @@ export default class CategoryPage extends Component {
     this.addEvent();
   }
 
+  setState = (nextState) => {
+    this._state.categoryListItems = nextState.categoryListItems;
+    this.render();
+  };
+
   render = () => {
     this.$dom.innerHTML = `
       <div class="Header"></div>
@@ -45,8 +59,8 @@ export default class CategoryPage extends Component {
     `;
 
     const $categoryList = this.$dom.querySelector(`.${styles['category-list']}`);
-    for (const category of this.categories) {
-      $categoryList.appendChild(category.$dom);
+    for (const categoryListItem of this._state.categoryListItems) {
+      $categoryList.appendChild(categoryListItem.$dom);
     }
 
     this.replaceElement(this.$dom.querySelector('.Header'), this.HeaderMenu.$dom);
@@ -62,81 +76,6 @@ export default class CategoryPage extends Component {
 
   showPage = () => {
     this.$dom.classList.add(styles['show']);
-  };
-
-  getCategories = () => {
-    return [
-      {
-        id: '0',
-        name: '디지털기기',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '생활가전',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '가구/인테리어',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '게임/취미',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '생활/가공식품',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '스포츠/레저',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '여성패션/잡화',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '남성패션/잡화',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '유아동',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '뷰티/미용',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '반려동물',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '도서/티켓/음반',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '식물',
-        image: '',
-      },
-      {
-        id: '0',
-        name: '기타 중고물품',
-        image: '',
-      },
-    ];
   };
 
   addEvent = () => {};

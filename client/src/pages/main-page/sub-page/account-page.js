@@ -8,8 +8,7 @@ import styles from '@/styles/pages/main-page/sub-page/account-page.module.scss';
 import common from '@/styles/common.module.scss';
 
 import { showAlert } from '@/screens/alert-screen';
-import { loadingOn, loadingOff } from '@/screens/loading-screen';
-import { postApi } from '@/utils/api';
+import { postApi, getApi } from '@/utils/api';
 import jwtDecode from 'jwt-decode';
 import store from '@/utils/store';
 
@@ -26,6 +25,16 @@ export default class AccountPage extends Component {
     else if (props.type === 'logined') this.initMyPage();
   }
 
+  getAndSetLocation = () => {
+    return getApi('/users/me/locations', (locations) => {
+      store.setState('locations', locations);
+    }).then(() => {
+      return getApi('/users/me/locations/selection', (selection) => {
+        store.setState('selection', selection);
+      });
+    });
+  };
+
   processLogin = () => {
     const username = this.LoginInput.$dom.value.trim();
     if (!username) {
@@ -35,7 +44,6 @@ export default class AccountPage extends Component {
       return;
     }
 
-    loadingOn();
     postApi(
       '/auth/token',
       { username },
@@ -49,7 +57,9 @@ export default class AccountPage extends Component {
           username: payload.username,
         };
         store.setState('login', login);
-        location.href = '/';
+        this.getAndSetLocation().then(() => {
+          location.href = '/';
+        });
       },
       {
         404: () => showAlert({ message: '존재하지 않는 아이디입니다.' }),
@@ -58,14 +68,39 @@ export default class AccountPage extends Component {
   };
 
   processSignup = () => {
-    // 회원가입 api 처리
-    console.log(this.IdInput.$dom.value, this.LocationInput.$dom.value);
-    this.initLoginPage();
+    const username = this.IdInput.$dom.value.trim();
+    const location = this.LocationInput.$dom.value.trim();
+    postApi(
+      '/users',
+      {
+        username,
+        location,
+      },
+      () => {
+        showAlert({
+          message: '회원가입 성공!',
+          onClickOk: () => this.initLoginPage(),
+        });
+      },
+      {
+        409: () => {
+          showAlert({
+            message: '이미 사용중인 아이디 입니다.',
+          });
+        },
+      },
+    );
   };
 
   processLogout = () => {
-    // 로그아웃 api 처리
-    this.initLoginPage();
+    showAlert({
+      message: '진짜 로그아웃 하나요?',
+      okMessage: '네!',
+      onClickOk: () => {
+        store.reset();
+      },
+      onClickCancel: () => {},
+    });
   };
 
   initMyPage = () => {
@@ -91,7 +126,7 @@ export default class AccountPage extends Component {
       <div class="Header"></div>
       <div class="${styles['page-main']} ${styles['logined']}">
         <div class="${styles['user-name']}">
-          <span>Username</span>
+          <span>${store.state.login.username}</span>
         </div>
         <div class="LogoutButton"></div>
       </div>

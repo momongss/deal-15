@@ -3,7 +3,7 @@ import store from '@/utils/store';
 import { showAlert } from '@/screens/alert-screen';
 import { loadingOn, loadingOff } from '@/screens/loading-screen';
 
-function api(target, options, success, failed) {
+function api(target, options, success, failed, autoLoading = true) {
   const headers = {
     'Content-Type': 'application/json',
   };
@@ -39,7 +39,9 @@ function api(target, options, success, failed) {
     body,
   };
 
-  loadingOn();
+  if (autoLoading) {
+    loadingOn();
+  }
   return fetch(`${process.env.API_BASE}${target}`, ops)
     .then((res) => {
       const n = (res.status / 100) | 0;
@@ -51,13 +53,19 @@ function api(target, options, success, failed) {
     .then((res) => {
       loadingOff();
       if (success) {
-        res.json().then(success);
+        if (res.status === 201) {
+          success();
+        } else {
+          res.json().then(success);
+        }
       }
       return res;
     })
     .catch((res) => {
       const status = res.status;
-      loadingOff();
+      if (autoLoading) {
+        loadingOff();
+      }
       if (failed && status in failed) {
         failed[status]();
       } else {
@@ -69,7 +77,7 @@ function api(target, options, success, failed) {
     });
 }
 
-export function uploadApi(target, upload, success, failed) {
+export function uploadApi(target, upload, success, failed, autoLoading = false) {
   return api(
     target,
     {
@@ -78,10 +86,11 @@ export function uploadApi(target, upload, success, failed) {
     },
     success,
     failed,
+    autoLoading,
   );
 }
 
-export function postApi(target, data, success, failed) {
+export function postApi(target, data, success, failed, autoLoading = false) {
   return api(
     target,
     {
@@ -90,10 +99,11 @@ export function postApi(target, data, success, failed) {
     },
     success,
     failed,
+    autoLoading,
   );
 }
 
-export function getApi(target, success, failed) {
+export function getApi(target, success, failed, autoLoading = false) {
   return api(
     target,
     {
@@ -101,10 +111,11 @@ export function getApi(target, success, failed) {
     },
     success,
     failed,
+    autoLoading,
   );
 }
 
-export function putApi(target, data, success, failed) {
+export function putApi(target, data, success, failed, autoLoading = false) {
   return api(
     target,
     {
@@ -113,10 +124,11 @@ export function putApi(target, data, success, failed) {
     },
     success,
     failed,
+    autoLoading,
   );
 }
 
-export function deleteApi(target, success, failed) {
+export function deleteApi(target, success, failed, autoLoading = false) {
   return api(
     target,
     {
@@ -124,5 +136,6 @@ export function deleteApi(target, success, failed) {
     },
     success,
     failed,
+    autoLoading,
   );
 }
