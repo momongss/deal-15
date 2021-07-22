@@ -22,7 +22,7 @@ router.post(
   '/',
   invalidRequest(
     body('title').trim().isLength({ max: 30 }).notEmpty(),
-    body('image').trim().isLength({ max: 30 }).notEmpty(),
+    body('image').trim().notEmpty(),
   ),
   wrapAsync(async function (req, res) {
     const { title, image } = req.body;

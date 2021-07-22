@@ -14,16 +14,29 @@ function api(target, options, success, failed) {
   const data = options.data;
   delete options.data;
 
+  const upload = options.upload;
+  delete options.upload;
+
+  let body = null;
+  if (data) {
+    body = JSON.stringify(data);
+  } else if (upload) {
+    const formData = new FormData();
+    formData.append(upload.name, upload.file);
+    body = formData;
+    delete headers['Content-Type'];
+  }
+
   const defaultOptions = {
     mode: 'cors',
     cache: 'no-cache',
     headers,
     redirect: 'manual',
-    body: data && JSON.stringify(data),
   };
   const ops = {
     ...defaultOptions,
     ...options,
+    body,
   };
 
   loadingOn();
@@ -54,6 +67,18 @@ function api(target, options, success, failed) {
       }
       return res;
     });
+}
+
+export function uploadApi(target, upload, success, failed) {
+  return api(
+    target,
+    {
+      method: 'POST',
+      upload,
+    },
+    success,
+    failed,
+  );
 }
 
 export function postApi(target, data, success, failed) {
