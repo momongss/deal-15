@@ -1,6 +1,8 @@
 import Component from '@/components/component';
 
+import classNames from 'classnames';
 import styles from '@/styles/pages/product-page/product-detail-page.module.scss';
+import common from '@/styles/common.module.scss';
 
 import ChatPage from './sub-page/chat-page';
 
@@ -28,7 +30,9 @@ export default class ProductDetail extends Component {
 
     this._state = { ...productInfoData, imageIndex: 0 };
 
-    this.$dom = this.createDom('div', { className: styles['product-detail-page-wrapper'] });
+    this.$dom = this.createDom('div', {
+      className: classNames(styles['product-detail-page-wrapper'], common['sub-page']),
+    });
 
     this.$dom.classList.add(styles[this._props.userType]);
 
@@ -47,6 +51,7 @@ export default class ProductDetail extends Component {
       },
       onClickOption: this.toggleOption,
     });
+    this.Header.$dom.classList.add(styles['top-header']);
 
     this.DropDown = new DropDown({
       itemList: [
@@ -61,7 +66,8 @@ export default class ProductDetail extends Component {
         },
       ],
 
-      onClick: (label) => {
+      onClick: (e, label) => {
+        e._dropdownClicked = true;
         if (label === '수정하기') {
           //
         } else if (label == '삭제하기') {
@@ -102,8 +108,7 @@ export default class ProductDetail extends Component {
 
     this.ProductBar = new ProductBar({
       price: this._state.price != null ? this._state.price : '가격 미정',
-      buttonName:
-        this._props.userType === 'sell' ? `채팅 목록 보기(${this._state.count.chat})` : `문의하기`,
+      buttonName: this._props.userType === 'sell' ? `채팅 목록 보기(${this._state.count.chat})` : `문의하기`,
       onClick: this._props.userType === 'sell' ? this.onClickChatList : null,
     });
 
@@ -123,28 +128,28 @@ export default class ProductDetail extends Component {
   render = () => {
     this.$dom.innerHTML = `
       <div class="${styles['header-wrapper']}">
-        <div class="ImgBox"></div>
         <div class="Header"></div>
-        <div class="ImgNav"></div>
+        <div class="${styles['drop-down-wrapper']}">
+          <div class="DropDown"></div>
+        </div>
       </div>
-      <main class="${styles['page-main']}">
-        <div class="ButtonStatus"></div>
-        <div class="${styles['title']}">${this._state.title}</div>
-        <div class="${styles['info']}">${this._state.category} · ${getTimeStamp(
-      this._state.createdDatetime,
-    )}
+      <div class="${styles['content-wrapper']}">
+        <div class="${styles['image-wrapper']}">
+          <div class="ImgBox"></div>
+          <div class="ImgNav"></div>
         </div>
-        <div class="${styles['content']}">${this._state.content}</div>
-        <div class="${styles['status']}">
-          채팅 ${this._state.count.chat} · 관심 ${this._state.count.watch} · 조회 ${
-      this._state.count.views
-    }
-        </div>
-        <div class="InfoSaler"></div>
-      </main>
-      <div class="ProductBar"></div>
-      <div class="${styles['drop-down-wrapper']}">
-        <div class="DropDown"></div>
+        <main class="${styles['page-main']}">
+          <div class="ButtonStatus"></div>
+          <div class="${styles['title']}">${this._state.title}</div>
+          <div class="${styles['info']}">${this._state.category} · ${getTimeStamp(this._state.createdDatetime)}
+          </div>
+          <div class="${styles['content']}">${this._state.content}</div>
+          <div class="${styles['status']}">
+            채팅 ${this._state.count.chat} · 관심 ${this._state.count.watch} · 조회 ${this._state.count.views}
+          </div>
+          <div class="InfoSaler"></div>
+        </main>
+        <div class="ProductBar"></div>
       </div>
     `;
 
@@ -160,16 +165,17 @@ export default class ProductDetail extends Component {
     this.replaceElement(this.$dom.querySelector('.ProductBar'), this.ProductBar.$dom);
   };
 
-  toggleOption = () => {
+  toggleOption = (e) => {
+    e._dropdownClicked = true;
     const $dropDownWrapper = this.$dom.querySelector(`.${styles['drop-down-wrapper']}`);
     $dropDownWrapper.classList.toggle(styles.show);
   };
 
   addEvent = () => {
-    const $dropDownWrapper = this.$dom.querySelector(`.${styles['drop-down-wrapper']}`);
-    this.$dom.addEventListener('click', (e) => {
-      if (e.target === $dropDownWrapper) {
-        this.toggleOption();
+    window.addEventListener('click', (e) => {
+      if (!('_dropdownClicked' in e)) {
+        const $dropDownWrapper = this.$dom.querySelector(`.${styles['drop-down-wrapper']}`);
+        $dropDownWrapper.classList.remove(styles.show);
       }
     });
   };

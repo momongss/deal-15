@@ -3,14 +3,16 @@ import HeaderMenu from '@/components/header/header-menu';
 import TextInput from '@/components/text-input/text-input';
 import ButtonNormal from '@/components/button/button-normal';
 
+import classNames from 'classnames';
 import styles from '@/styles/pages/main-page/sub-page/account-page.module.scss';
+import common from '@/styles/common.module.scss';
 
 export default class AccountPage extends Component {
   constructor(props) {
     super(props);
 
     this.$dom = this.createDom('div', {
-      className: `${styles['account-page-wrapper']}`,
+      className: classNames(styles['account-page-wrapper'], common['sub-page']),
     });
 
     if (props.type === 'login') this.initLoginPage();

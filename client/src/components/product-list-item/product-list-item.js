@@ -20,6 +20,7 @@ export default class ProductListItem extends Component {
       type: 'large',
       imageURL: this.productData.image,
     });
+    this.ImgBox.$dom.classList.add(styles['img-box']);
 
     this.$dom = this.createDom('div', {
       className: styles['product-list-item'],
@@ -107,10 +108,7 @@ export default class ProductListItem extends Component {
 
   addEvent = () => {
     this.$dom.addEventListener('click', (e) => {
-      if (
-        e.target.className === styles['like-button'] ||
-        e.target.parentElement.className === styles['like-button']
-      ) {
+      if (e.target.className === styles['like-button'] || e.target.parentElement.className === styles['like-button']) {
         this.toggleWatch();
       } else if (
         e.target.className === styles['option-button'] ||

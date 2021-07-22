@@ -2,7 +2,9 @@ import Component from '@/components/component';
 import HeaderMenu from '@/components/header/header-menu';
 import ChatListItem from '@/components/chat-list-item/chat-list-item';
 
+import classNames from 'classnames';
 import styles from '@/styles/pages/product-page/sub-page/chat-page.module.scss';
+import common from '@/styles/common.module.scss';
 
 import { api } from '@/utils/api';
 
@@ -16,9 +18,10 @@ export default class ChatPage extends Component {
       menuColor: 'white',
       onClickBack: this.togglePage,
     });
+    this.HeaderMenu.$dom.classList.add(styles.header);
 
     this.$dom = this.createDom('div', {
-      className: `${styles['chat-page-wrapper']}`,
+      className: classNames(styles['chat-page-wrapper'], common['sub-page']),
     });
 
     this._state = {

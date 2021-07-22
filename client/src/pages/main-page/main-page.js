@@ -1,6 +1,8 @@
 import Component from '@/components/component';
 
+import classNames from 'classnames';
 import styles from '@/styles/pages/main-page/main-page.module.scss';
+import common from '@/styles/common.module.scss';
 
 import HeaderMain from '@/components/header/header-main.js';
 import ProductListItem from '@/components/product-list-item/product-list-item';
@@ -17,7 +19,9 @@ export default class MainPage extends Component {
   constructor(props) {
     super(props);
 
-    this.$dom = this.createDom('div', { className: styles['main-page-wrapper'] });
+    this.$dom = this.createDom('div', {
+      className: classNames(styles['main-page-wrapper'], common['sub-page']),
+    });
     this.CategoryPage = new CategoryPage({
       onClickCategoryItem: this.filterCategory,
     });
@@ -68,7 +72,7 @@ export default class MainPage extends Component {
         },
       ],
 
-      onClick: (location) => {
+      onClick: (e, location) => {
         if (location === '내 동네 설정하기') {
           // 동네 설정 페이지로 이동
           return;
@@ -76,6 +80,7 @@ export default class MainPage extends Component {
           return;
         }
 
+        e._clickecByDropBox = true;
         this.setState({ location });
       },
     });
@@ -106,16 +111,14 @@ export default class MainPage extends Component {
 
     const $productList = this.$dom.querySelector(`.${styles['product-list']}`);
 
-    const productList = api
-      .getProducDatatList(this._state.location, this._state.categoryId)
-      .map((productData) => {
-        return new ProductListItem({
-          productData,
-          onClick: (id) => {
-            console.log(id);
-          },
-        });
+    const productList = api.getProducDatatList(this._state.location, this._state.categoryId).map((productData) => {
+      return new ProductListItem({
+        productData,
+        onClick: (id) => {
+          console.log(id);
+        },
       });
+    });
 
     for (const product of productList) {
       $productList.appendChild(product.$dom);
@@ -137,10 +140,18 @@ export default class MainPage extends Component {
     return true;
   };
 
-  toggleDropDown = () => {
+  toggleDropDown = (e) => {
+    e._clickecByDropBox = true;
     const $dropDown = this.$dom.querySelector(`.${styles['drop-down-wrapper']}`);
     $dropDown.classList.toggle(styles.show);
   };
 
-  addEvent = () => {};
+  addEvent = () => {
+    window.addEventListener('click', (e) => {
+      if (!('_clickecByDropBox' in e)) {
+        const $dropDown = this.$dom.querySelector(`.${styles['drop-down-wrapper']}`);
+        $dropDown.classList.remove(styles.show);
+      }
+    });
+  };
 }

@@ -9,11 +9,15 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
     clean: true,
+    publicPath: '/',
   },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   module: {
     rules: [

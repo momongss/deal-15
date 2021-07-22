@@ -1,0 +1,17 @@
+@import '@/styles/theme.scss';
+
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  margin-bottom: 10px;
+}
+
+.message {
+  @include text-medium;
+  color: $color-grey1;
+}

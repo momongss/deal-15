@@ -2,7 +2,9 @@ import Component from '@/components/component';
 import HeaderMenu from '@/components/header/header-menu';
 import CategoryListItem from '@/components/category-list-item/category-list-item';
 
+import classNames from 'classnames';
 import styles from '@/styles/pages/main-page/sub-page/category-page.module.scss';
+import common from '@/styles/common.module.scss';
 
 export default class CategoryPage extends Component {
   constructor(props) {
@@ -24,9 +26,10 @@ export default class CategoryPage extends Component {
       menuColor: 'grey',
       onClickBack: this.togglePage,
     });
+    this.HeaderMenu.$dom.classList.add(styles.header);
 
     this.$dom = this.createDom('div', {
-      className: `${styles['category-page-wrapper']}`,
+      className: classNames(styles['category-page-wrapper'], common['sub-page']),
     });
 
     this.render();

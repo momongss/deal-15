@@ -4,7 +4,9 @@ import TabBar from '@/components/tab-bar/tab-bar';
 import ProductListItem from '@/components/product-list-item/product-list-item';
 import ChatListItem from '@/components/chat-list-item/chat-list-item';
 
+import classNames from 'classnames';
 import styles from '@/styles/pages/main-page/sub-page/menu-page.module.scss';
+import common from '@/styles/common.module.scss';
 
 import { api } from '@/utils/api';
 
@@ -26,6 +28,7 @@ export default class MenuPage extends Component {
       menuColor: 'grey',
       onClickBack: this.togglePage,
     });
+    this.HeaderMenu.$dom.classList.add(styles['top-header']);
 
     this.currentTab = TAB0;
 
@@ -37,9 +40,10 @@ export default class MenuPage extends Component {
       ],
       onClick: this.onClickTab,
     });
+    this.TabBar.$dom.classList.add(styles['tab-bar']);
 
     this.$dom = this.createDom('div', {
-      className: `${styles['menu-page-wrapper']}`,
+      className: classNames(styles['menu-page-wrapper'], common['sub-page']),
     });
 
     this.render();
@@ -54,8 +58,7 @@ export default class MenuPage extends Component {
     this.$dom.innerHTML = `
       <div class="Header"></div>
       <nav class="TabBar"></nav>
-      <main class="${styles['menu-main']}">
-      </main>
+      <main class="${styles['menu-main']}"></main>
     `;
 
     this.replaceElement(this.$dom.querySelector('.Header'), this.HeaderMenu.$dom);

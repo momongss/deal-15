@@ -25,7 +25,7 @@ export default class DropDown extends Component {
   addEvent = () => {
     this.$dom.addEventListener('click', (e) => {
       if (e.target.classList.contains(styles.item)) {
-        this._props.onClick(e.target.textContent);
+        this._props.onClick(e, e.target.textContent);
       }
     });
   };

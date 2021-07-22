@@ -3,25 +3,34 @@
 .chat-page-wrapper {
   z-index: 2;
 
-  min-height: 100vh;
-
   position: absolute;
   top: 0;
-  left: 100vw;
+  left: 100%;
   transition-duration: 0.7s;
 
   background-color: $color-white;
 
   &.show {
-    transform: translate(-100vw, 0);
-    transition-duration: 0.7s;
+    transform: translate(-100%, 0);
   }
 }
 
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+  border-bottom: 1px solid $color-grey3;
+}
+
 .chat-main {
-  border-top: 1px solid $color-grey3;
-
-  width: 100vw;
-
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 56px;
   background-color: $color-white;
+  overflow-y: auto;
 }

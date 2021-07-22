@@ -9,6 +9,10 @@
   padding: 16px;
 }
 
+.img-box {
+  cursor: pointer;
+}
+
 .item-info-container {
   flex-grow: 1;
 
@@ -27,13 +31,14 @@
 
   .title {
     @include link-medium;
+    cursor: pointer;
   }
 
   .like-button {
     font-size: 20px;
     color: $color-grey1;
 
-    padding: 0;
+    cursor: pointer;
 
     img {
       width: 22px;
@@ -43,6 +48,8 @@
   .option-button {
     font-size: 20px;
     color: $color-grey1;
+
+    cursor: pointer;
 
     padding: 0;
   }
