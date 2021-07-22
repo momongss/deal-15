@@ -36,6 +36,7 @@ export default class HeaderMenu extends Component {
         ${this.rightAreaTemplate()}
       </div>
     `;
+
     this.addEvent();
   };
 

@@ -1,0 +1,54 @@
+@import '@/styles/theme.scss';
+
+.set-location-page-wrapper {
+  z-index: 2;
+
+  width: 100%;
+}
+
+.set-location-main {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.message {
+  width: 170px;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+
+  text-align: center;
+
+  color: $color-grey1;
+
+  margin-top: 24px;
+}
+
+.location-buttons {
+  width: 288px;
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 28px;
+}
+
+.input-popup-wrapper {
+  position: fixed;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  &.show {
+    display: flex;
+  }
+}

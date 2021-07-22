@@ -2,14 +2,17 @@
 
 .location {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+
+  padding: 0 16px;
 
   background-color: $color-primary1;
 
   border: 1px solid $color-primary1;
   border-radius: 8px;
 
+  width: 136px;
   height: 36px;
 
   i {
@@ -17,6 +20,7 @@
   }
 
   &.add {
+    justify-content: center;
     background-color: $color-white;
 
     cursor: pointer;

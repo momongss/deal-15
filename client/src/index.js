@@ -27,6 +27,7 @@ import Loginpage from '@/pages/login-page';
 import ProductPage from '@/pages/product-page/product-detail-page';
 import WritePage from '@/pages/write-page/write-page';
 import NotFoundPage from '@/pages/404-page';
+import SetLocationPage from './pages/main-page/sub-page/set-location-page';
 
 const $app = document.querySelector('#app');
 
@@ -47,6 +48,10 @@ switch (true) {
   case !!pathname.match(/^\/write/):
     if (needLogin()) break;
     new WritePage({ $app });
+    break;
+  case !!pathname.match(/^\/location/):
+    if (needLogin()) break;
+    new SetLocationPage({ $app });
     break;
   default:
     new NotFoundPage({ $app });
