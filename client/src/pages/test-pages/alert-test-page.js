@@ -9,13 +9,12 @@ export default class TestPage extends Component {
     this.$dom = this.createDom('div', { className: 'test-page-wrapper' });
 
     this.Alert = new Alert({
-      alertType: 'confirm',
-      alertMessage: '정말로 이 채팅방을 나가시겠습니까?',
-      confirmText: '나가기',
+      message: '정말로 이 채팅방을 나가시겠습니까?',
+      okMessage: '나가기',
       onClickCancel: () => {
         console.log('cancel');
       },
-      onClickConfirm: () => {
+      onClickOk: () => {
         console.log('exit');
       },
     });

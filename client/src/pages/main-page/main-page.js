@@ -14,10 +14,19 @@ import MenuPage from './sub-page/menu-page';
 import DropDown from '@/components/drop-down/drop-down';
 
 import { api } from '@/utils/api';
+import store from '@/utils/store';
 
 export default class MainPage extends Component {
+  checkGlobalState() {
+    if (!store.state.login) {
+      location.href = '/login';
+      return true;
+    }
+  }
+
   constructor(props) {
     super(props);
+    if (this.checkGlobalState()) return;
 
     this.$dom = this.createDom('div', {
       className: classNames(styles['main-page-wrapper'], common['sub-page']),

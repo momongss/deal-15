@@ -5,6 +5,7 @@ import '@/styles/global.scss';
 import '@/assets/fonts/woowa-market-icons.css';
 
 import MainPage from '@/pages/main-page/main-page';
+import Loginpage from '@/pages/login-page';
 import ProductPage from '@/pages/product-page/product-detail-page';
 import NotFoundPage from '@/pages/404-page';
 
@@ -14,6 +15,9 @@ const { pathname } = location;
 switch (true) {
   case pathname === '/':
     new MainPage({ $app });
+    break;
+  case pathname === '/login':
+    new Loginpage({ $app });
     break;
   case !!pathname.match(/^\/products\/\d+$/):
     new ProductPage({ $app });

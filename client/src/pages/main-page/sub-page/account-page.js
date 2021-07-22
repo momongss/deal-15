@@ -7,6 +7,12 @@ import classNames from 'classnames';
 import styles from '@/styles/pages/main-page/sub-page/account-page.module.scss';
 import common from '@/styles/common.module.scss';
 
+import { showAlert } from '@/screens/alert-screen';
+import { loadingOn, loadingOff } from '@/screens/loading-screen';
+import { postApi } from '@/utils/api';
+import jwtDecode from 'jwt-decode';
+import store from '@/utils/store';
+
 export default class AccountPage extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +27,34 @@ export default class AccountPage extends Component {
   }
 
   processLogin = () => {
-    // 로그인 api 처리
-    console.log(this.LoginInput.$dom.value);
-    this.initMyPage();
+    const username = this.LoginInput.$dom.value.trim();
+    if (!username) {
+      showAlert({
+        message: '아이디 값이 없습니다.',
+      });
+      return;
+    }
+
+    loadingOn();
+    postApi(
+      '/auth/token',
+      { username },
+      (data) => {
+        console.log('hh');
+        const payload = jwtDecode(data.access);
+        const login = {
+          access: data.access,
+          refresh: data.refresh,
+          userId: payload.userId,
+          username: payload.username,
+        };
+        store.setState('login', login);
+        location.href = '/';
+      },
+      {
+        404: () => showAlert({ message: '존재하지 않는 아이디입니다.' }),
+      },
+    );
   };
 
   processSignup = () => {
@@ -80,7 +111,7 @@ export default class AccountPage extends Component {
 
     this.IdInput = new TextInput({
       type: 'large',
-      text: '영문, 숫자 조합 20자 이상.',
+      text: '아이디를 입력하세요.',
       onInput: this.validateSignupInput,
     });
 
@@ -135,6 +166,7 @@ export default class AccountPage extends Component {
       title: '로그인',
       menuType: 'default',
       menuColor: 'grey',
+      noneLeft: this._props.single,
       onClickBack: this.togglePage,
     });
 

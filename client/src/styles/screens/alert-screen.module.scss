@@ -1,0 +1,21 @@
+.alert-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+
+  padding: 22px;
+
+  display: none; // flex
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.1);
+
+  &.show {
+    display: flex;
+  }
+}

@@ -2,7 +2,7 @@ import Component from '@/components/component';
 
 import styles from '@/styles/components/header/header-menu.module.scss';
 
-// props : { title, menuType, menuColor, menuState, onClickBack, onClickExit, onClickSubmit, onClickOption }
+// props : { title, noneLeft, menuType, menuColor, menuState, onClickBack, onClickExit, onClickSubmit, onClickOption }
 export default class HeaderMenu extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +29,19 @@ export default class HeaderMenu extends Component {
   };
 
   render = () => {
-    this.$dom.innerHTML = `
+    if (this._props.noneLeft) {
+      this.$dom.innerHTML = `
+      <div class="${styles['left-area']}">
+      </div>
+      <div class="${styles['middle-area']}">
+        <div class="${styles['title']}">${this._props.title}</div>
+      </div>
+      <div class="${styles['right-area']}">
+        ${this.rightAreaTemplate()}
+      </div>
+    `;
+    } else {
+      this.$dom.innerHTML = `
       <div class="${styles['left-area']}">
         <button class="${styles['back-button']}">
           <i class="wmi-chevron-left"></i>
@@ -42,11 +54,14 @@ export default class HeaderMenu extends Component {
         ${this.rightAreaTemplate()}
       </div>
     `;
+    }
   };
 
   addEvent = () => {
     const $backButton = this.$dom.querySelector(`.${styles['back-button']}`);
-    $backButton.addEventListener('click', this._props.onClickBack);
+    if ($backButton) {
+      $backButton.addEventListener('click', this._props.onClickBack);
+    }
 
     const $exitButton = this.$dom.querySelector(`.${styles['exit-button']}`);
     if ($exitButton != null) {
