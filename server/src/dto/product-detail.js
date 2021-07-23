@@ -6,7 +6,7 @@ class ProductDetail {
     this.status = product.status;
     this.price = product.price;
     this.images = images.map((i) => i.imageUri);
-    this.createDatetime = product.createDatetime;
+    this.createdDatetime = product.createDatetime;
     this.content = product.content;
     this.count = count;
     this.saler = {
