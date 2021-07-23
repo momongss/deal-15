@@ -138,9 +138,6 @@ async function removeWatchFromProductAsync(userId, productId) {
   if (!product || product.deleted) {
     throw new ApiError('NON_EXISTENCE_PRODUCT', '상품이 존재하지 않습니다.', 404);
   }
-  if (product.userId === userId) {
-    throw new ApiError('CANNOT_DO_THIS_YOUR_PRODUCT', '본인 상품에는 할 수 없습니다.', 400);
-  }
 
   await productDao.removeWatchAsync(userId, productId);
 }
