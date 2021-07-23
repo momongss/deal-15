@@ -159,7 +159,7 @@ async function findAllProductsByUserIdAsync(userId) {
 
 async function findAllProductsByWatchAsync(userId) {
   const rows = await selectRawAsync(
-    `SELECT p.* FROM products AS p JOIN watches AS w ON p.id = w.product_id AND w.user_id = ?`,
+    `SELECT p.* FROM products AS p JOIN watches AS w ON p.id = w.product_id AND w.user_id = ? WHERE p.deleted = 0`,
     [userId],
   );
   return rows.map((r) => Product.fromRow(r));
