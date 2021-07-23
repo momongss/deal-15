@@ -25,8 +25,11 @@
 .alert-buttons {
   display: flex;
   justify-content: space-between;
-  cursor: pointer;
   user-select: none;
+
+  > * {
+    cursor: pointer;
+  }
 
   .cancel-button {
     @include link-small;

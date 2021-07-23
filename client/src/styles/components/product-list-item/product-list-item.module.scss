@@ -50,12 +50,24 @@
   }
 
   .option-button {
+    position: relative;
     font-size: 20px;
     color: $color-grey1;
 
     cursor: pointer;
 
     padding: 0;
+  }
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  &.show {
+    display: block;
   }
 }
 

@@ -10,6 +10,7 @@ import common from '@/styles/common.module.scss';
 import store from '@/utils/store';
 
 import { getApi, postApi, deleteApi, putApi } from '@/utils/api';
+import { showAlert } from '@/screens/alert-screen';
 
 export default class SetLocationPage extends Component {
   constructor(props) {
@@ -113,7 +114,10 @@ export default class SetLocationPage extends Component {
   };
 
   onClickLocation = (position) => {
-    console.log(position);
+    if (store.state.selection.position === position) {
+      return;
+    }
+
     putApi(
       '/users/me/locations/selection',
       {
@@ -131,6 +135,13 @@ export default class SetLocationPage extends Component {
   };
 
   onClickRemove = (position) => {
+    if (store.state.locations.length === 1) {
+      showAlert({
+        message: '반드시 동네는 하나 이상 있어야 합니다.',
+      });
+      return;
+    }
+
     deleteApi(`/users/me/locations/position/${position}`, this.renderLocation, {
       400: (res) => {
         console.log(res);

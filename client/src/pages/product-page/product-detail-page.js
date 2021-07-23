@@ -15,110 +15,128 @@ import ButtonStatus from '@/components/button/button-status';
 import InfoSaler from '@/components/info-saler/info-saler';
 import ProductBar from '@/components/product-bar/product-bar';
 
-import { api } from '@/utils/api';
+import { deleteApi, getApi } from '@/utils/api';
 import { getTimeStamp } from '@/utils/getTimeStamp';
+import store from '@/utils/store';
+import { showAlert } from '@/screens/alert-screen';
 
 export default class ProductDetail extends Component {
   constructor(props) {
     super(props);
 
-    // test
-    this._props.userType = 'sell';
-    //
+    getApi(location.pathname, (product) => {
+      this._props.userType = product.saler.username === store.state.login.username ? 'sell' : 'buyer';
 
-    const productInfoData = api.getProductInfo();
+      this._state = { ...product, imageIndex: 0 };
 
-    this._state = { ...productInfoData, imageIndex: 0 };
+      this.$dom = this.createDom('div', {
+        className: classNames(styles['product-detail-page-wrapper'], common['sub-page']),
+      });
 
-    this.$dom = this.createDom('div', {
-      className: classNames(styles['product-detail-page-wrapper'], common['sub-page']),
-    });
+      this.$dom.classList.add(styles[this._props.userType]);
 
-    this.$dom.classList.add(styles[this._props.userType]);
+      // this.ChatPage = new ChatPage({ productId: this._state.id });
 
-    this.ChatPage = new ChatPage({ productId: this._state.id });
+      props.$app.appendChild(this.$dom);
+      // props.$app.appendChild(this.ChatPage.$dom);
 
-    props.$app.appendChild(this.$dom);
-    props.$app.appendChild(this.ChatPage.$dom);
-
-    this.Header = new HeaderMenu({
-      title: '',
-      menuType: 'product-detail',
-      menuState: this._props.userType,
-      menuColor: 'none',
-      onClickBack: () => {
-        console.log('back');
-      },
-      onClickOption: this.toggleOption,
-    });
-    this.Header.$dom.classList.add(styles['top-header']);
-
-    this.DropDown = new DropDown({
-      itemList: [
-        {
-          label: '수정하기',
-          state: 'normal',
+      this.Header = new HeaderMenu({
+        title: '',
+        menuType: 'product-detail',
+        menuState: this._props.userType,
+        menuColor: 'none',
+        onClickBack: () => {
+          location.href = '/';
         },
+        onClickOption: this.toggleOption,
+      });
+      this.Header.$dom.classList.add(styles['top-header']);
 
-        {
-          label: '삭제하기',
-          state: 'highlighted',
+      this.DropDown = new DropDown({
+        itemList: [
+          {
+            label: '수정하기',
+            state: 'normal',
+          },
+
+          {
+            label: '삭제하기',
+            state: 'highlighted',
+          },
+        ],
+
+        onClick: (e, label) => {
+          e._dropdownClicked = true;
+          if (label === '수정하기') {
+            location.href = `/products/${this._state.id}/edit`;
+          } else if (label == '삭제하기') {
+            showAlert({
+              message: '정말 삭제하나요??',
+              okMessage: '삭제',
+              onClickOk: () => {
+                deleteApi(`/products/${this._state.id}`, () => {
+                  showAlert({
+                    message: '삭제되었습니다!',
+                    onClickOk: () => {
+                      location.href = '/';
+                    },
+                  });
+                });
+              },
+              onClickCancel: () => {},
+            });
+          }
         },
-      ],
+      });
 
-      onClick: (e, label) => {
-        e._dropdownClicked = true;
-        if (label === '수정하기') {
-          //
-        } else if (label == '삭제하기') {
-          return;
-        }
-      },
+      this.ImgBox = new ImgBox({
+        type: 'gradient',
+        imageURL: this._state.images[this._state.imageIndex],
+        onClick: () => {
+          console.log('img-gradient');
+        },
+      });
+
+      this.ImgNav = new ImgNav({
+        navCount: this._state.images.length,
+        onClick: (navPosition) => {
+          this._state.imageIndex = navPosition;
+
+          this.ImgNav.setState({ navPosition });
+          this.ImgBox.setState({ imageURL: this._state.images[this._state.imageIndex] });
+        },
+      });
+
+      this.ButtonStatus = new ButtonStatus({
+        buttonText: '판매중',
+        onClick: () => {
+          console.log('status');
+        },
+      });
+
+      this.InfoSaler = new InfoSaler({
+        name: this._state.saler.username,
+        place: this._state.saler.location,
+      });
+
+      this.ProductBar = new ProductBar({
+        price: this._state.price != null ? this._state.price : '가격 미정',
+        buttonName: this._props.userType === 'sell' ? `채팅 목록 보기(${this._state.count.chat})` : `문의하기`,
+        onClick: () => {
+          showAlert({
+            message: '채팅기능은 추후 공개 됩니다! 두둥!',
+          });
+        },
+      });
+
+      this.render();
+      this.addEvent();
     });
-
-    this.ImgBox = new ImgBox({
-      type: 'gradient',
-      imageURL: this._state.images[this._state.imageIndex],
-      onClick: () => {
-        console.log('img-gradient');
-      },
-    });
-
-    this.ImgNav = new ImgNav({
-      navCount: this._state.images.length,
-      onClick: (navPosition) => {
-        this._state.imageIndex = navPosition;
-
-        this.ImgNav.setState({ navPosition });
-        this.ImgBox.setState({ imageURL: this._state.images[this._state.imageIndex] });
-      },
-    });
-
-    this.ButtonStatus = new ButtonStatus({
-      buttonText: '판매중',
-      onClick: () => {
-        console.log('status');
-      },
-    });
-
-    this.InfoSaler = new InfoSaler({
-      name: this._state.saler.name,
-      place: this._state.saler.location,
-    });
-
-    this.ProductBar = new ProductBar({
-      price: this._state.price != null ? this._state.price : '가격 미정',
-      buttonName: this._props.userType === 'sell' ? `채팅 목록 보기(${this._state.count.chat})` : `문의하기`,
-      onClick: this._props.userType === 'sell' ? this.onClickChatList : null,
-    });
-
-    this.render();
-    this.addEvent();
   }
 
   onClickChatList = () => {
     console.log('move');
-    this.ChatPage.togglePage();
+    // this.ChatPage.togglePage();
   };
 
   setState = (nextState) => {

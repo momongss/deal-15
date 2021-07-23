@@ -13,7 +13,7 @@ import MenuPage from './sub-page/menu-page';
 
 import DropDown from '@/components/drop-down/drop-down';
 
-import { getApi } from '@/utils/api';
+import { getApi, putApi } from '@/utils/api';
 import store from '@/utils/store';
 
 export default class MainPage extends Component {
@@ -84,8 +84,18 @@ export default class MainPage extends Component {
           return;
         }
 
-        e._clickecByDropBox = true;
-        this.setState({ label });
+        const selection = store.state.locations.find((l) => l.location === label);
+        putApi(
+          `/users/me/locations/selection`,
+          {
+            position: selection.position,
+          },
+          () => {
+            store.setState('selection', selection);
+            e._clickecByDropBox = true;
+            this.setState({ location: selection.location });
+          },
+        );
       },
     });
 
@@ -113,6 +123,19 @@ export default class MainPage extends Component {
       </main>
     `;
 
+    this.DropDown.setState({
+      itemList: [
+        ...store.state.locations.map((l) => ({
+          label: l.location,
+          state: store.state.selection.position === l.position ? 'highlighted' : 'normal',
+        })),
+        {
+          label: '내 동네 설정하기',
+          state: 'normal',
+        },
+      ],
+    });
+
     const $productList = this.$dom.querySelector(`.${styles['product-list']}`);
 
     let target = '/products?location=' + this._state.location;
@@ -125,7 +148,7 @@ export default class MainPage extends Component {
         return new ProductListItem({
           productData: product,
           onClick: (id) => {
-            console.log(id);
+            location.href = '/products/' + id;
           },
         });
       });
@@ -144,11 +167,6 @@ export default class MainPage extends Component {
     this.CategoryPage.togglePage();
 
     this.setState({ category });
-  };
-
-  getLoginInfo = () => {
-    // 로그인 여부 확인.
-    return true;
   };
 
   toggleDropDown = (e) => {

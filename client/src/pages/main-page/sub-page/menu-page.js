@@ -73,7 +73,7 @@ export default class MenuPage extends Component {
         const productListItems = items.map(
           (p) =>
             new ProductListItem({
-              productData: item,
+              productData: p,
               sale: true,
               onClick: (productId) => {
                 this.moveProductDatailPage(productId);
@@ -96,10 +96,10 @@ export default class MenuPage extends Component {
       </div>`;
     } else if (this.currentTab === TAB2) {
       getApi('/users/me/watches', (products) => {
-        const productListItems = items.map(
+        const productListItems = products.map(
           (p) =>
             new ProductListItem({
-              productData: item,
+              productData: p,
               sale: false,
               onClick: (productId) => {
                 this.moveProductDatailPage(productId);

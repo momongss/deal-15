@@ -43,6 +43,10 @@
 
     user-select: none;
 
+    > * {
+      cursor: pointer;
+    }
+
     .cancel {
       color: $color-title-active;
     }

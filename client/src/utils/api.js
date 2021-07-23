@@ -77,7 +77,7 @@ function api(target, options, success, failed, autoLoading = true) {
     });
 }
 
-export function uploadApi(target, upload, success, failed, autoLoading = false) {
+export function uploadApi(target, upload, success, failed, autoLoading = true) {
   return api(
     target,
     {
@@ -90,7 +90,7 @@ export function uploadApi(target, upload, success, failed, autoLoading = false) 
   );
 }
 
-export function postApi(target, data, success, failed, autoLoading = false) {
+export function postApi(target, data, success, failed, autoLoading = true) {
   return api(
     target,
     {
@@ -103,7 +103,7 @@ export function postApi(target, data, success, failed, autoLoading = false) {
   );
 }
 
-export function getApi(target, success, failed, autoLoading = false) {
+export function getApi(target, success, failed, autoLoading = true) {
   return api(
     target,
     {
@@ -115,7 +115,7 @@ export function getApi(target, success, failed, autoLoading = false) {
   );
 }
 
-export function putApi(target, data, success, failed, autoLoading = false) {
+export function putApi(target, data, success, failed, autoLoading = true) {
   return api(
     target,
     {
@@ -128,7 +128,7 @@ export function putApi(target, data, success, failed, autoLoading = false) {
   );
 }
 
-export function deleteApi(target, success, failed, autoLoading = false) {
+export function deleteApi(target, success, failed, autoLoading = true) {
   return api(
     target,
     {

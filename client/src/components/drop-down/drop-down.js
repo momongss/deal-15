@@ -10,16 +10,25 @@ export default class DropDown extends Component {
       className: styles['drop-down'],
     });
 
+    this._state = {
+      itemList: props.itemList,
+    };
+
     this.render();
     this.addEvent();
   }
 
   render = () => {
-    this.$dom.innerHTML = this._props.itemList
+    this.$dom.innerHTML = this._state.itemList
       .map((item) => {
         return `<div class="${styles['item']} ${styles[item.state]}">${item.label}</div>`;
       })
       .join('');
+  };
+
+  setState = (nextState) => {
+    this._state = { ...this._state, ...nextState };
+    this.render();
   };
 
   addEvent = () => {
