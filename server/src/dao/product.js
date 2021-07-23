@@ -166,7 +166,10 @@ async function findAllProductsByWatchAsync(userId) {
 }
 
 async function findProductsByLocationAndCategoryId(location, categoryId, limit) {
-  const conditions = [['location', '=', location]];
+  const conditions = [
+    ['location', '=', location],
+    ['deleted', '=', 0]
+  ];
   if (categoryId) {
     conditions.push(['category_id', '=', categoryId]);
   }
