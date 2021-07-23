@@ -17,8 +17,6 @@ export default class ButtonFab extends Component {
 
     this.render();
     this.addEvent();
-
-    this._props.onClick();
   }
 
   render = () => {

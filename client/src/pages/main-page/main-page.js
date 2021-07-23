@@ -12,6 +12,7 @@ import AccountPage from './sub-page/account-page';
 import MenuPage from './sub-page/menu-page';
 
 import DropDown from '@/components/drop-down/drop-down';
+import ButtonFab from '@/components/button/button-fab';
 
 import { getApi, putApi } from '@/utils/api';
 import store from '@/utils/store';
@@ -99,6 +100,14 @@ export default class MainPage extends Component {
       },
     });
 
+    this.ButtonFab = new ButtonFab({
+      onClick: () => {
+        if (store.state.login) {
+          location.href = '/write';
+        }
+      },
+    });
+
     this.render();
     this.addEvent();
   }
@@ -120,6 +129,9 @@ export default class MainPage extends Component {
       </div>
       <main class="${styles['app-main']}">
         <ul class="${styles['product-list']}"></ul>
+        <div class="${styles['button-fab-wrapper']}">
+          <div class="ButtonFab"></div>
+        </div>
       </main>
     `;
 
@@ -160,6 +172,7 @@ export default class MainPage extends Component {
 
     this.replaceElement(this.$dom.querySelector('.Header'), this.HeaderMain.$dom);
     this.replaceElement(this.$dom.querySelector('.DropDown'), this.DropDown.$dom);
+    this.replaceElement(this.$dom.querySelector('.ButtonFab'), this.ButtonFab.$dom);
   };
 
   filterCategory = (category) => {
