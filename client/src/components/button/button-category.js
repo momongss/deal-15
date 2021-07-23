@@ -2,7 +2,6 @@ import Component from '@/components/component';
 
 import styles from '@/styles/components/button/button-category.module.scss';
 
-// props : { buttonState }
 export default class ButtonCategory extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +38,7 @@ export default class ButtonCategory extends Component {
 
   addEvent = () => {
     this.$dom.addEventListener('click', () => {
-      this._props.onClick(this._props.categoryId);
+      this._props.onClick(this._props.categoryTitle);
     });
   };
 }

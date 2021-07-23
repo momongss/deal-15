@@ -7,6 +7,8 @@ import ImgButton from '@/components/img-button/img-button';
 import ButtonCategory from '@/components/button/button-category';
 import LocationBar from '@/components/location-bar/location-bar';
 
+import store from '@/utils/store';
+
 import { uploadApi, postApi, getApi, putApi, deleteApi } from '@/utils/api';
 
 export default class WritePage extends Component {
@@ -19,7 +21,7 @@ export default class WritePage extends Component {
 
     this.data = {
       title: null,
-      categoryId: null,
+      categoryTitle: null,
       price: null,
       description: null,
       images: [],
@@ -35,11 +37,21 @@ export default class WritePage extends Component {
       menuColor: 'white',
 
       onClickBack: () => {
-        console.log('back');
+        location.href = '/';
       },
       onClickSubmit: () => {
         if (this._state.isComplete) {
-          console.log(this.data);
+          const productData = {
+            images: this.data.images,
+            title: this.data.title,
+            price: this.data.price,
+            category: this.data.categoryTitle,
+            content: this.data.description,
+            location: store.state.selection.location,
+          };
+          postApi('/products', productData, () => {
+            location.href = '/';
+          });
         }
       },
     });
@@ -71,11 +83,10 @@ export default class WritePage extends Component {
     });
 
     getApi('/categories', (categoryList) => {
-      console.log(categoryList);
       const $categoryList = this.$dom.querySelector(`.${styles['category-list']}`);
       for (const category of categoryList) {
         const CategoryButton = new ButtonCategory({
-          categoryId: category.id,
+          categoryTitle: category.title,
           buttonState: 'disable',
           buttonText: category.title,
           onClick: this.onClickCategory,
@@ -86,9 +97,9 @@ export default class WritePage extends Component {
     });
   }
 
-  onClickCategory = (categoryId) => {
+  onClickCategory = (categoryTitle) => {
     for (const categoryButton of this.CategoryButtonList) {
-      if (categoryButton._props.categoryId === categoryId) {
+      if (categoryButton._props.categoryTitle === categoryTitle) {
         categoryButton.setState({ buttonState: '' });
         const $categoryInput = this.$dom.querySelector(`.${styles['category-input']}`);
         $categoryInput.innerHTML = categoryButton._props.buttonText;
@@ -98,11 +109,11 @@ export default class WritePage extends Component {
       }
     }
 
-    this.setData({ categoryId });
+    this.setData({ categoryTitle });
   };
 
   checkComplete = () => {
-    return this.data.title && this.data.categoryId && this.data.description;
+    return this.data.title && this.data.categoryTitle && this.data.description;
   };
 
   setComplete = () => {
@@ -115,9 +126,18 @@ export default class WritePage extends Component {
     this.Header.setState({ menuState: '' });
   };
 
+  setImageData = () => {
+    this.data.images = this.ImgButtonList.filter((ImgButton) => {
+      if (ImgButton._props.imageURL == null || ImgButton._props.imageURL === '') return false;
+      else return true;
+    }).map((ImgButton) => {
+      return ImgButton._props.imageURL;
+    });
+  };
+
   setData = (nextState) => {
     if (nextState.title != null) this.data.title = nextState.title;
-    if (nextState.categoryId != null) this.data.categoryId = nextState.categoryId;
+    if (nextState.categoryTitle != null) this.data.categoryTitle = nextState.categoryTitle;
     if (nextState.price != null) this.data.price = nextState.price;
     if (nextState.description != null) this.data.description = nextState.description;
 
@@ -128,14 +148,29 @@ export default class WritePage extends Component {
     }
   };
 
+  renderImgArea = () => {
+    const $imgArea = this.$dom.querySelector(`.${styles['img-area']}`);
+    $imgArea.innerHTML = `
+      <div class="ImgAddButton"></div>
+      <input class="${styles['file-input']}" type="file" accept="image/*" />
+    `;
+
+    this.replaceElement(this.$dom.querySelector('.ImgAddButton'), this.ImgAddButton.$dom);
+
+    this.ImgAddButton.setState({ imageCount: this.data.images.length });
+
+    for (const imgButton of this.ImgButtonList) {
+      $imgArea.appendChild(imgButton.$dom);
+    }
+
+    this.addEvent();
+  };
+
   render = () => {
     this.$dom.innerHTML = `
       <div class="Header"></div>
       <main class="${styles['write-main']}">
-        <div class="${styles['img-area']}">
-          <div class="ImgAddButton"></div>
-          <input class="${styles['file-input']}" type="file" accept="image/*" />
-        </div>
+        <div class="${styles['img-area']}"></div>
         <div class="${styles['input-area-1']}">
           <input type="text" class="${styles['title-input']}" placeholder="글 제목">
           <div class="${styles['category-area']}">
@@ -156,15 +191,6 @@ export default class WritePage extends Component {
     `;
 
     this.replaceElement(this.$dom.querySelector('.Header'), this.Header.$dom);
-    this.replaceElement(this.$dom.querySelector('.ImgAddButton'), this.ImgAddButton.$dom);
-
-    this.ImgAddButton.setState({ imageCount: this.data.images.length });
-
-    const $imgArea = this.$dom.querySelector(`.${styles['img-area']}`);
-
-    for (const imgButton of this.ImgButtonList) {
-      $imgArea.appendChild(imgButton.$dom);
-    }
 
     const $categoryList = this.$dom.querySelector(`.${styles['category-list']}`);
 
@@ -172,16 +198,7 @@ export default class WritePage extends Component {
       $categoryList.appendChild(CategoryButton.$dom);
     }
 
-    this.addEvent();
-  };
-
-  setImageData = () => {
-    this.data.images = this.ImgButtonList.filter((ImgButton) => {
-      if (ImgButton._props.imageURL == null || ImgButton._props.imageURL === '') return false;
-      else return true;
-    }).map((ImgButton) => {
-      return ImgButton._props.imageURL;
-    });
+    this.renderImgArea();
   };
 
   addEvent = () => {
@@ -211,25 +228,34 @@ export default class WritePage extends Component {
     });
 
     $fileInput.addEventListener('change', (e) => {
-      const src = URL.createObjectURL(e.target.files[0]);
-      const imgButton = new ImgButton({
-        buttonType: 'image',
-        imageURL: src,
-        onClickAdd: () => {
-          console.log('image');
+      uploadApi(
+        '/images',
+        {
+          name: 'image',
+          file: e.target.files[0],
         },
-        onClickRemove: (e) => {
-          const index = this.ImgButtonList.indexOf(imgButton);
-          if (index > -1) this.ImgButtonList.splice(index, 1);
+        (res) => {
+          console.log(res.image);
+          const imgButton = new ImgButton({
+            buttonType: 'image',
+            imageURL: 'http://deal-15.woowa.work/' + res.image,
+            onClickAdd: () => {
+              console.log('image');
+            },
+            onClickRemove: (e) => {
+              const index = this.ImgButtonList.indexOf(imgButton);
+              if (index > -1) this.ImgButtonList.splice(index, 1);
 
+              this.setImageData();
+              this.renderImgArea();
+            },
+          });
+
+          this.ImgButtonList.push(imgButton);
           this.setImageData();
-          this.render();
+          this.renderImgArea();
         },
-      });
-
-      this.ImgButtonList.push(imgButton);
-      this.setImageData();
-      this.render();
+      );
     });
   };
 }
